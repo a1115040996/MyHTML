@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			html,body{
+				text-align: center;
+			}
+			input{
+				width: 400px;
+				height: 50px;
+				border: 1px solid skyblue;
+				margin-top: 20px;
+				font-size: 22px;
+			}
+			#button{
+				width: 100px;
+				height: 80px;
+				text-align: center;
+				border-radius: 10px;
+				background: skyblue;
+				color: white;
+				margin: 0 auto;
+				line-height: 80px;
+				font-size: 30px;
+				cursor: pointer;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>回文</h1>
+		<input type="" name="" id="mInput" value="" placeholder="请输入需要回文的数组，以逗号隔开" />
+		<div id="button">
+			回文
+		</div>
+		<h2 id="mH">完成</h1>
+	</body>
+	<script type="text/javascript">
+		console.log("js执行！");
+		
+		var arr = [1,2,3,4,5,6,7,8,9];
+		var mInput = document.getElementById("mInput");
+		var mButton = document.getElementById("button");
+		var mH = document.getElementById("mH");
+		mButton.onclick = function(){
+			var arr = mInput.value.split(',');
+			for (var i=0;len = arr.length,i<len;i++) {
+				console.log(arr[i]=="");
+				if (arr[i]=="") {
+					arr.splice(i,1);
+					i=i-1;
+				}
+			}
+			//排序
+			for (var j=0;j<arr.length;j++) {
+				for (var k=0;k<arr.length;k++) {
+					if (arr[k]>arr[k+1]) {
+						var temp = arr[k+1];
+						arr[k+1] = arr[k];
+						arr[k] = temp;
+					}
+				}
+			}
+			
+			mH.innerHTML = getNewArr(arr);
+		}
+		
+		function getNewArr(arr){
+			var copyArr = arr.concat();
+			var arrTemp;
+			(function(){
+				arrTemp = arr.concat(copyArr.reverse());
+			})();
+			arrTemp.splice(~~arrTemp.length/2,1);
+			return arrTemp;
+		}
+		console.log(getNewArr(arr));
+	</script>
+</html>
