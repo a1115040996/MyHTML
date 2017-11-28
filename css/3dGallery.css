@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+#gallery-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+#gallery-wrapper > ul {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+#gallery-wrapper > ul > li {
+  width: 200px;
+  height: 350px;
+  background: orange;
+  position: absolute;
+  border-radius: 15px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  list-style: none;
+  box-shadow: 0 0 15px #ccc;
+  color: white;
+  line-height: 350px;
+  text-align: center;
+  font-size: 50px;
+}
+#gallery-wrapper > ul > li:nth-child(1) {
+  background: skyblue;
+}
+#gallery-wrapper > ul > li:nth-child(2) {
+  background: gold;
+}
+#gallery-wrapper > ul > li:nth-child(3) {
+  background: aqua;
+}
+#gallery-wrapper > ul > li:nth-child(4) {
+  background: magenta;
+}
+#gallery-wrapper > ul > li:nth-child(5) {
+  background: greenyellow;
+}
+#gallery-wrapper > ul > li:nth-child(6) {
+  background: blue;
+}
+#gallery-wrapper > ul > li:nth-child(7) {
+  background: orange;
+}
+#gallery-wrapper > ul > li:nth-child(8) {
+  background: yellow;
+}
+/*# sourceMappingURL=3dGallery.css.map */

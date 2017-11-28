@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/3dGallery.css"/>
+	</head>
+	<body>
+		<div id="gallery-wrapper">
+			<ul id="gallery-container">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var mList = document.getElementsByTagName('li');
+			var mWrapper = document.getElementById("gallery-wrapper");
+			var mContainer = document.getElementById('gallery-container');
+			for (var i=0;len = mList.length,i<len;i++) {
+				mList[i].style.transform = "rotateY("+i*45+"deg) translateZ(400px)";
+			}
+			var endX = 0;
+			var endY = 0;
+			var galleryController = function(){};
+			galleryController.methods = function(){
+				return{
+					move:function(){
+						mWrapper.onmousedown = function(ev){
+							var e = ev||event;
+							//加入修正  使得获取的点击距离 相对于父窗体
+							var fixX = mWrapper.offsetLeft;
+							var fixY = mWrapper.offsetTop;
+							console.log(fixX+"    "+fixY);
+							var startX = e.clientX-fixX;
+							var startY = e.clientY-fixY;
+							console.log('鼠标按下时 X轴坐标'+startX);
+							console.log('鼠标按下时 Y轴坐标'+startY);
+							mWrapper.onmousemove = function(ev){
+								var e = ev||event;
+								var moveX = ((e.clientX-fixX)-startX)+endX;
+								var moveY = ((e.clientY-fixY)-startY)+endY;
+								mContainer.style.transform = 'rotateY('+(moveX)+'deg) rotateX('+(moveY)+'deg)';
+								mWrapper.onmouseup = function(){
+									console.log('鼠标抬起');
+									mWrapper.onmousemove = null;
+									endX = moveX;
+									endY = moveY;
+								}
+							}
+						}
+					},
+					stopBabel:function(){
+						mContainer.ondragstart = function(){
+							return false;
+						}
+						mContainer.onclick = function(){
+							return false;
+						}
+						for (var i=0;len=mList.length,i<len;i++) {
+							mList[i].ondragstart = function(){
+								return false;
+							};
+							mList[i].onclick = function(){
+								return false;
+							};
+						}
+					},
+					init:function(){
+						this.stopBabel();
+						this.move();
+					}
+				}
+			}();
+			galleryController.methods.init();
+		}
+	</script>
+</html>
