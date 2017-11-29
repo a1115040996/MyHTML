@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/3DSquare.css"/>
+	</head>
+	<body>
+		<ul id="squareContainer">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var squareContainer = document.getElementById("squareContainer");
+			var body = document.getElementsByTagName('body')[0];
+			var startX=0,
+				startY=0
+				moveX=0,
+				moveY=0,
+				endX=0,
+				endY=0;
+			var squareController = function(){};
+			squareController.methods = function(){
+				return {
+					move:function(){
+						body.onmousedown = function(ev){
+							var e = ev||event;
+							startX = e.clientX;
+							startY = e.clientY;
+							console.log('click')
+							body.onmousemove = function(ev){
+								var e = ev||event;
+								moveX = e.clientX-startX+endX;
+								moveY = e.clientY-startY+endY;
+								squareContainer.style.transform = 'rotateY('+moveX+'deg) rotateX('+(-moveY)+'deg)';
+								console.log('move')
+								body.onmouseup = function(){
+									body.onmousemove = null;
+									endX = moveX;
+									endY  = moveY;
+								}
+							}
+							
+							return false;
+						}
+					},
+					init:function(){
+						this.move();
+					},
+				}
+			}();
+			squareController.methods.init();
+		}
+	</script>
+</html>
