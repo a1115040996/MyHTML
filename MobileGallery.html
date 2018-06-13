@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=750,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/MobileGallery.css"/>
+	</head>
+	<body>
+		<div id="gallery">
+			<ul class="wrapper">
+				<li>
+					<a>
+						1
+						<img src="img/banner.png"/>
+					</a>
+				</li>
+				
+				<li>
+					<a>
+						2
+						<img src="img/banner2.png"/>
+					</a>
+				</li>
+				
+				
+				<li>
+					<a>
+						1
+						<img src="img/banner.png"/>
+					</a>
+				</li>
+				
+				<li>
+					<a>
+						2
+						<img src="img/banner2.png"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				var startX = 0;
+				var moveX = 0;
+				var endX = -730;
+				var direction = '';
+				$("#gallery").on('touchstart',function(ev){
+					var e = ev||event;
+					var _touchStart = e.originalEvent.changedTouches[0];
+					e.preventDefault();
+					e.stopPropagation();
+					startX = _touchStart['clientX'];
+					console.log("start======================")
+					$("#gallery").on('touchmove',function(ev){
+						var e = ev||event;
+						e.preventDefault();
+						e.stopPropagation();
+						var _touchMove = e.originalEvent.changedTouches[0];
+						moveX = _touchMove['clientX'];
+						if (startX-moveX>0) {
+							//向左
+							$("#gallery>ul.wrapper").css("left",endX+(-(startX-moveX)));
+							direction = 'left';
+							console.log('向左==================')
+						}else{
+							//向右
+							$("#gallery>ul.wrapper").css("left",endX-(startX-moveX));
+							direction = 'right';
+						}
+						
+					});
+					
+					$("#gallery").on('touchend',function(ev){
+						var e = ev||event;
+						e.preventDefault();
+						e.stopPropagation();
+						/*endX = parseInt($("#gallery>ul.wrapper").css('left'));
+						$("#gallery>ul.wrapper").css("left",-Math.abs(Math.floor(endX/750))*700-30);					
+						endX = parseInt($("#gallery>ul.wrapper").css('left'));*/
+						//判断向左向右
+						
+						if (direction=='left') {
+							console.log('向左'+(Math.abs(parseInt($("#gallery>ul.wrapper").css('left'))-endX)))
+							if (Math.abs(parseInt($("#gallery>ul.wrapper").css('left'))-endX)>400) {
+								$("#gallery>ul.wrapper").css("left",endX-700);
+								console.log("向左参数"+(endX-700));
+							}else{
+								$("#gallery>ul.wrapper").css("left",endX);
+							}
+							
+						} else{
+							console.log('向右');
+							console.log(Math.abs(parseInt($("#gallery>ul.wrapper").css('left'))-endX))
+							if (Math.abs(parseInt($("#gallery>ul.wrapper").css('left'))-endX)>400) {
+								$("#gallery>ul.wrapper").css("left",endX+730);
+								$("#gallery>ul.wrapper>li").eq(Math.floor(endX/700)-1).addClass('show').siblings().removeClass('show');
+							}else{
+								$("#gallery>ul.wrapper").css("left",endX);
+								console.log('小于')
+							}
+						}
+						
+						
+						endX=parseInt($("#gallery>ul.wrapper").css('left'));
+						console.log(endX)
+						$("#gallery").off('touchend');
+						$("#gallery").off('touchmove');
+					});
+	
+				})
+				
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+	
+		var Person = function(){
+			this.contry = 'china';
+			this.sex = 'man';
+			this.sayHello = function(){
+				console.log('hello world')
+			}
+	
+		}
+		function Zhang(){
+			this.name = 'zhangsan';
+			this.age = '12';
+			this.sayHi = function(){
+			}
+		}
+		Zhang.prototype = new Person();
+		
+		var z = new Zhang();
+		
+		z.sayHi()
+	</script>
+</html>
