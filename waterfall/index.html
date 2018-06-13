@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<ul id="list">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>		
+		
+		<script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				//赋值随机色
+				function getRandomColor(){ 
+					return "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6); 
+				} 
+				//制作色块工厂
+				function createEle(){
+					var $el = $('<div></div>');
+					$el.css('background',getRandomColor()).height(20+Math.random()*100);
+					return $el;
+				}
+				
+				//更新list的最新高度
+				function updateStatus(){
+					var status = [];
+					for (var i=0;len = $("#list>li").length,i<len;i++) {
+						status[i] = $("#list>li").eq(i).height();
+					}
+					return status;
+				}
+				
+				//获取数数组中的最小值，并返回最小值，以及index
+				function getMin(status){
+					var minNum = status[0];
+					var minIndex = 0;
+					for (var j=0;len=status.length,j<len;j++) {
+						if (minNum>status[j]) {
+							minNum = status[j];
+							minIndex = j;
+						}
+					}
+					return minIndex;
+				}
+				
+				
+				
+				function waterfall(i){
+					if(i==0){
+						return;
+					}else{
+						waterfall(--i)
+						var minIndex = getMin(updateStatus());//获取最小值的下标
+						$("#list>li").eq(minIndex).append(createEle());
+					}
+					
+				}
+				
+				//执行
+				waterfall(100)
+				
+			})
+		</script>
+	</body>
+</html>
