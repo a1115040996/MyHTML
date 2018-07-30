@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		html,body{
+			background: black;
+		}
+			*{
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			#can{
+				margin: 0 auto;
+				margin-top:200px;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		
+		
+		<canvas id="can" width="586" height="520"></canvas>
+		
+		<script type="text/javascript">
+			var c = document.getElementById("can");
+			var ctx =  document.getElementById("can").getContext('2d');
+            
+            
+            
+            var k = 0;
+            var timer = setInterval(function(){
+            	k++;
+            	if(k==100){
+            		clearInterval(timer);
+            	}
+	 			fillImage(k);
+            },80)
+
+            
+            //绘制图片
+            function fillImage(k){
+            	var img = new Image();
+	            img.src = 'img/icon.png';
+	            img.onload = function(){
+					c.height = c.height;
+					ctx.drawImage(img,18,14);
+					fillArrows(k);
+					fillFont(k);
+					fillRing(k)
+	            }
+            }
+            
+            //绘制箭头
+            function fillArrows(k){
+            }
+            
+            
+            function fillArrows(k){
+            	var img = new Image();
+            	img.src = 'img/arrow.png';
+            	img.onload = function(){
+            		// 120
+			        var angleInRadians = (-146+k*2.66) * Math.PI / 180;
+			        var x = 144;
+			        var y = 108;
+			        var width = 292;
+			        var height = 328;
+			        ctx.translate(x+.5*(width),y+.5*(height+31));
+			        ctx.rotate(angleInRadians);
+					ctx.drawImage(img,-.5*(width),-.5*(height+31),width,height);//把图片绘制在旋转的中心点，
+					ctx.restore();//恢复状态
+            	}
+		        
+		    }
+            
+            
+            //绘制文字
+            function fillFont(k){
+				ctx.font = 'bold 35px Arial';
+				ctx.fillStyle = '#fff';
+				ctx.fillText(k+"%",256,290);
+            }
+            
+            
+            //绘制圆环
+            function fillRing(k){
+            	var gnt1 = ctx.createLinearGradient(0,0,400,300);//线性渐变的起止坐标
+	            gnt1.addColorStop(0,'#00b298');
+	            gnt1.addColorStop(1,'#00ffff');
+	            ctx.lineWidth = 10;
+		        ctx.strokeStyle = gnt1;
+		        var i = (k/100)*1.5 + 0.75;
+				ctx.beginPath()
+				ctx.arc(293,290,278,Math.PI*0.75,Math.PI*i,false);
+				ctx.stroke();
+            }
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
+
+
+
+
