@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=750,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+	</head>
+	<body>
+		<canvas id="can" width="530" height="90"></canvas>
+		<script type="text/javascript">
+			var canvas = document.getElementById("can");
+			var ctx = canvas.getContext('2d');
+			var i = 0;
+			var timer =  setInterval(function(){
+				i++;
+				if(i==100){
+					clearInterval(timer);
+				}
+				drawBackgroundImage(i);
+			},80)
+			function drawBackgroundImage(k){
+				var img = new Image();
+				img.src = 'img/loading_progress.png';
+				img.onload = function(){
+					ctx.drawImage(img,0,0);
+					drawBackgroundProgress(k);
+				}
+			}
+			
+			function drawBackgroundProgress(k){
+				var img = new Image();
+				img.src = 'img/progress_one.png'
+				img.onload = function(){
+					var l =  parseInt(k/2.2);
+					for (var i=0;i<l;i++) {
+						ctx.drawImage(img,(i*10)+8,48)
+					}
+				}
+			}
+			
+			function drawFont(){
+				ctx.setFontSize(20)
+				ctx.fillText('Hello', 20, 20)
+				ctx.fillText('MINA', 100, 100)
+			}
+		</script>
+	</body>
+</html>
