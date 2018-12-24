@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" name="ipt" id="ipt" value="" />
+		<p id="p_text"></p>
+		
+		<script type="text/javascript">
+			// 数据驱动
+			var obj = {
+				msg: ''
+			}
+			
+			// 给对象套壳
+			var proxyObj = new Proxy(obj,{
+				set: function(obj,prop, newValue){
+					console.log(obj, prop, newValue)
+					switch(prop){
+						case 'msg': 
+							document.getElementById("p_text").innerHTML = newValue
+						break;
+						
+						case 'otherKey':
+						break;
+					}
+				}
+			})
+			
+			document.getElementById("ipt").oninput = function(){
+				proxyObj.msg = this.value
+				console.log(this.value)
+			}
+		</script>
+	</body>
+</html>
