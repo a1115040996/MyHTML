@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		
+		<script type="text/javascript">
+		
+			var weekTemp = [{
+				id: "1",
+				weekName: '周一',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "",
+				weekName: '周二',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "1",
+				weekName: '周三',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "",
+				weekName: '周四',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "",
+				weekName: '周五',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "",
+				weekName: '周六',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				{
+				id: "1",
+				weekName: '周日',
+				morning: false,
+				afternoon: false,
+				evening: false,
+				},
+				]
+		
+			function getWeekForMonthObj(){
+				var temp = []
+				var selectWeek = []
+				var nowDateTime = (new Date()).getTime()
+				for (var j=0;len=weekTemp.length,j<len;j++) {
+					if(weekTemp[j]['id']){
+						selectWeek.push(weekTemp[j]['weekName'])
+					}
+				}
+				
+				for (var i=0;i<30;i++) {
+					console.log(getNowFormatDate(nowDateTime+(i*86400000)),getDayToWeekday(nowDateTime+(i*86400000)))
+					for (var k=0;k<selectWeek.length;k++) {
+						if(getDayToWeekday(nowDateTime+(i*86400000))===selectWeek[k]){
+							temp.push({
+								week: getDayToWeekday(nowDateTime+(i*86400000)),
+								day: i,
+								month: +(new Date(nowDateTime+(i*86400000))).getMonth()+1,
+								morning: false,
+								afternoon: false,
+								evening: false,
+							})
+						}
+					}
+				}
+				
+				
+				// 获取某天的周次
+				function getDayToWeekday(nowDayTime){
+					var d = new Date()
+					var weekArr = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+					return weekArr[(new Date(nowDayTime)).getDay()]
+				}
+				
+				
+				
+				
+				
+				function getNowFormatDate(nowTime) {
+				    var date = new Date(nowTime);
+				    var seperator1 = "-";
+				    var seperator2 = ":";
+				    var month = date.getMonth() + 1;
+				    var strDate = date.getDate();
+				    if (month >= 1 && month <= 9) {
+				        month = "0" + month;
+				    }
+				    if (strDate >= 0 && strDate <= 9) {
+				        strDate = "0" + strDate;
+				    }
+				    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+				            + " " + date.getHours() + seperator2 + date.getMinutes()
+				            + seperator2 + date.getSeconds();
+				    return currentdate;
+				}
+				
+				
+			
+				/*获取一个月的天数 */
+				function getCountDays() {
+			          var curDate = new Date();
+			          var curMonth = curDate.getMonth();
+				        curDate.setMonth(curMonth + 1);
+				        curDate.setDate(0);
+			        return curDate.getDate();
+				}
+				
+				return temp
+			}
+			
+			
+			
+			
+			console.log(getWeekForMonthObj())
+			
+			
+			
+		</script>
+	</body>
+</html>
