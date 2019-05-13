@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			function printAllLocalStorageList(){
+				var i = 0;
+				var storageList = [];
+				function getKey(){
+					while(localStorage.key(i)){
+						storageList.push({
+							name: localStorage.key(i),
+							value: isJson(localStorage.getItem(localStorage.key(i)))
+						})
+						i++;
+					}
+				}
+				
+				function isJson(jsonObj){
+					try{
+						if((typeof JSON.parse(jsonObj)) === 'object'){
+							return JSON.parse(jsonObj);
+						} else {
+							return jsonObj;
+						}
+					}catch(e){
+						//TODO handle the exception
+						return jsonObj;
+					}
+				}
+				
+				getKey();
+				return storageList;
+			}
+			
+			
+			console.log(printAllLocalStorageList())
+		</script>
+	</body>
+
+</html>
