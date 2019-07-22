@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车架号</title>
+</head>
+<body>
+<input type="text" placeholder="车架号"/>
+<script>
+    function randomString(len, charSet) {
+    charSet = '0123456789ABCDEFGHJKLMPRSTUVWXYZ';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+     var randomPoz = Math.floor(Math.random() * charSet.length);
+     randomString += charSet.substring(randomPoz,randomPoz+1);
+    }
+    return randomString;
+  }
+  var content_map = {
+    'A': 1, 'B': 2, 'C': 3,'D': 4, 'E': 5,
+    'F': 6, 'G': 7, 'H': 8, 'I': 0,'J': 1,'K': 2,'L': 3,
+    'M': 4, 'N': 5, 'O': 0, 'P': 7, 'Q': 8, 'R': 9, 'S': 2,'T': 3,
+    'U': 4, 'V': 5, 'W': 6, 'X': 7, 'Y': 8, 'Z': 9, "0": 0, "1": 1,
+    "2": 2, "3": 3, "4": 4,"5": 5, "6": 6, "7": 7, "8": 8,"9": 9
+};
+  var location_map = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+  var vin = randomString(17, '0123456789ABCDEFGHJKLMPRSTUVWXYZ');
+  console.log("原有字符串"+vin);
+  var num = 0;
+  for(var i=0;i<vin.length;i++){
+      num = num+content_map[vin[i]]*location_map[i]
+  }
+  var vin9 = num % 11;
+  if (vin9==="10"){
+      vin9 = "X"
+  }
+  vin = vin.split('');
+  vin[8] = vin9;
+  vin = vin.join('');
+  console.log(vin);
+  document.getElementsByTagName("input")[0].value=vin;
+</script>
+</body>
+</html>
