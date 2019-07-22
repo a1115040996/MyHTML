@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>webcam</title>
+        <style type="text/css">
+            #webcam {
+                width: auto;
+                height: auto;
+                float: left;
+            }
+            #base64image {
+                display: block;
+                width: 320px;
+                height: 240px;
+            }
+        </style>
+
+        <!-- 基本的jquery引用，1.5版本以上 -->
+        <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+        <!-- webcam插件引用 -->
+        <script src="jquery.webcam.js" type="text/javascript" charset="utf-8"></script>
+
+    </head>
+
+    <body>
+
+        <div id="webcam"></div>
+        <canvas id="canvas" width="320" height="240"></canvas>
+        <input id="snapBtn" type="button" value="拍照" />
+        <img id="base64image" src='' />
+
+        <script type="text/javascript">
+            var pos = 0,
+                ctx = null,
+                image = [];
+            var w = 320;
+            var h = 240;
+            $(document).ready(function() {
+
+                jQuery("#webcam").webcam({
+
+                    width: 320,
+                    height: 240,
+                    mode: "callback",
+                    swffile: "jscam_canvas_only.swf", // 这里引入swf文件，注意路径
+                    onTick: function(remain) {},
+                    onSave: function(data) {
+
+                        var col = data.split(";");
+                        var img = image;
+
+                        for(var i = 0; i < 320; i++) {
+                            var tmp = parseInt(col[i]);
+                            img.data[pos + 0] = (tmp >> 16) & 0xff;
+                            img.data[pos + 1] = (tmp >> 8) & 0xff;
+                            img.data[pos + 2] = tmp & 0xff;
+                            img.data[pos + 3] = 0xff;
+                            pos += 4;
+                        }
+
+                        if(pos >= 4 * 320 * 240) {
+                        
+                            // 将图片显示到canvas中
+                            ctx.putImageData(img, 0, 0);
+                            
+                            // 取得图片的base64码
+                            var base64 = canvas.toDataURL("image/png");                    
+
+                            // 将图片base64码设置给img
+                            var base64image = document.getElementById('base64image');                                                              
+                            base64image.setAttribute('src', base64);
+
+                            pos = 0;
+
+                        }
+
+                    },
+
+                    onCapture: function() {
+                        webcam.save();
+                        // Show a flash for example
+                    },
+
+                    debug: function(type, string) {
+                        console.log('type:' + type + ',string:' + string);
+                        // Write debug information to console.log() or a div
+                    },
+
+                    onLoad: function() {
+                        // Page load
+                    }
+
+                });
+                window.addEventListener("load", function() {
+
+                    var canvas = document.getElementById("canvas");
+
+                    if(canvas.getContext) {
+                        ctx = canvas.getContext("2d");
+                        ctx.clearRect(0, 0, 320, 240);
+
+                        var img = new Image();
+                        img.onload = function() {
+                            ctx.drawImage(img, 129, 89);
+                        }
+                        image = ctx.getImageData(0, 0, 320, 240);
+                    }
+
+                }, false);
+
+                $('#snapBtn').on('click', function() {
+                    webcam.capture();
+                });
+            });
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				border: 0;
+				margin: 0;
+			}
+			
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.5);
+			}
+			
+			#box {
+				width: 751px;
+				height: 751px;
+				border-left: 1px solid #ccc;
+				border-top: 1px solid #ccc;
+				box-sizing: border-box;
+				margin: 200px auto;
+				font-size: 0px;
+			}
+			
+			#box > li {
+				width: 50px;
+				height: 50px;
+				box-sizing: border-box;
+				border-right: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+				list-style: none;
+				display: inline-block;
+				position: relative;
+			}
+			
+			#box > li > span {
+				display: inline-block;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+			}
+			
+			#box > li > span.white {
+				background: white;
+			}
+			
+			#box > li > span.black {
+				background: black;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul id="box">
+		</ul>
+		<script type="text/javascript">
+			var chessColor = false; // false 黑棋    true 白棋
+			var blackList = []
+
+			var whiteList = []
+
+			createChecker();
+			setListener();
+
+			function setListener() {
+				var ulBox = document.getElementById('box');
+				ulBox.onclick = function(ev) {
+					var e = ev || event;
+					if (e.target.children.length >= 1) {
+						return false
+					};
+					var pointX = e.target.x;
+					var pointY = e.target.y;
+					e.target.appendChild(getOneChess(chessColor))
+					if (chessColor) {
+						whiteList.push({
+							x: pointX,
+							y: pointY
+						});
+						setTimeout(() => {
+							if (isWin(pointX, pointY, whiteList)) {
+								alert('white');
+								clearChess();
+							}
+						}, 20);
+					} else {
+						blackList.push({
+							x: pointX,
+							y: pointY
+						})
+						if (isWin(pointX, pointY, blackList)) {
+							alert('black');
+							clearChess();
+						}
+					}
+					chessColor = !chessColor;
+					console.log(whiteList, blackList);
+				}
+			}
+
+			// 清除
+			function clearChess() {
+				whiteList = [];
+				blackList = [];
+				var mChessList = document.getElementsByTagName('li');
+				var mChessLength = mChessList.length;
+				for (var i = 0; i < mChessLength; i++) {
+					mChessList[i].innerHTML = '';
+				}
+			}
+
+			// 获取一个元素
+			function getOneChess(isWhite) {
+				var mChess = document.createElement('span');
+				mChess.className = isWhite ? 'white' : 'black';
+				return mChess;
+			}
+
+			function createChecker() {
+				var ulBox = document.getElementById('box');
+				for (var x = 0; x < 15; x++) {
+					for (var y = 0; y < 15; y++) {
+						var mLi = document.createElement('li');
+						mLi.x = x;
+						mLi.y = y;
+						mLi.haveChess = false;
+						ulBox.appendChild(mLi);
+					}
+				}
+			}
+			// 判断列表中
+			function isHaveChess(x, y, list) {
+				for (var i = 0; i < list.length; i++) {
+					if ((list[i]['x'] === x) && (list[i]['y'] === y)) {
+						return true;
+					}
+				}
+			}
+
+			function isWin(x, y, list) {
+				if (getAxisLineCount(x, y, list, 'x') >= 5) {
+					return true;
+				} else if (getAxisLineCount(x, y, list, 'y') >= 5) {
+					return true;
+				} else if (getBiasCount(x, y, list) >= 5) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			// 1. X\Y轴判断
+			function getAxisLineCount(x, y, list, axis) {
+				var count = 0;
+				// 参考坐标点
+				var originCoord = (axis === 'x') ? x : y;
+				var originMoveStart = originCoord + 5;
+				var originMoveEnd = originCoord - 5;
+
+				// 向前搜索
+				for (var i = originCoord; i < originMoveStart; i++) {
+					if (originCoord + i > 224) {
+						break;
+					}
+					//x轴变化  y轴不变
+					if ((axis === 'x') ? isHaveChess(i, y, list) : isHaveChess(x, i, list)) {
+						count++;
+					} else {
+						// 如果没有相连的 直接退出检查
+						break;
+					}
+				}
+
+				// 向后搜索
+				for (var j = originCoord; j > originMoveEnd; j--) {
+					if (j < 0) {
+						break;
+					}
+					if ((axis === 'x') ? isHaveChess(j, y, list) : isHaveChess(x, j, list)) {
+						count++;
+					} else {
+						break;
+					}
+				}
+				return count - 1;
+			}
+
+			// X轴 + Y轴判断 斜切线
+			function getBiasCount(x, y, list) {
+				var count = 0;
+				// 向右下角5个
+				for (var i = 0; i < 5; i++) {
+					if ((x + i) > 224 || (y + i) > 224) {
+						break;
+					}
+					if (isHaveChess(x + i, y + i, list)) {
+						count++;
+					} else {
+						break;
+					}
+				}
+
+				// 向左上角5个
+				for (var i = 0; i < 5; i++) {
+					if ((x - i) < 0 || (y - i) < 0) {
+						break;
+					}
+					if (isHaveChess(x - i, y - i, list)) {
+						count++;
+					} else {
+						break;
+					}
+				}
+				return count - 1;
+			}
+		</script>
+	</body>
+
+</html>
