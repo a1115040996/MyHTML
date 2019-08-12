@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function componse (){
+				var fns = Array.prototype.slice.call(arguments);
+				return function(msg){
+					var res = msg;
+					for (let i = fns.length-1;i>=0;i--) {
+						console.log(i)
+						res = fns[i](res);
+					}
+					return res;
+				}
+			}
+			function green(res){
+				console.log('green', res);
+			}
+			function yellow(res){
+				console.log('yellow', res);
+			}
+			console.log(componse(green, yellow)(111))
+		</script>
+	</body>
+</html>
