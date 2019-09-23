@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="box" style="width: 1200px;height: 800px;"></div>
+		<script src="js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/world-china.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		const myChart = echarts.init(document.getElementById('box'));
+		const option = {
+			 series: [{
+		        name: 'chinaMap',
+		        type: 'map',
+		        map: 'world',
+		        roam: true,
+		        itemStyle:{
+		            emphasis:{label:{show:true}}
+		        },
+		        center: [115.97, 29.71],
+		        zoom: 4,
+		        label: {
+		            normal: {
+		                show: true,
+		                position: 'center',
+		                formatter: '{b}'
+		            }
+		        },
+		        data: [
+		        	{name: '山东省', value: '1000'}
+		        ],
+		        zlevel: 3
+		    }]
+		}
+		myChart.setOption(option);
+		</script>
+	</body>
+</html>
