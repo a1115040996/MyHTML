@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="box" style="width: 1920px;height: 1080px;"></div>
+		<script src="js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/echarts-gl.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/china.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			let canvas = document.createElement('canvas');
+			let mapChart = echarts.init(canvas, null, {
+			    width: 4096,
+			    height: 2048
+			});
+			let pOp = {
+			    geo: {
+			        map: 'china',
+			        label: {
+			            fontSize: 12
+			        },
+			        itemStyle: {
+			            areaColor: 'transparent',
+			            borderColor: '#00FDFF'
+			        },
+			        emphasis: {
+			            areaColor: 'transparent'
+			        },
+			        regions: [
+				       	{
+			              name: "南海诸岛",
+			              value: 0,
+			              itemStyle: {
+			                normal: {
+			                  opacity: 0,
+			                  label: {
+			                    show: false
+			                  }
+			                }
+			              }
+			            }
+			        ],
+			        top: 0,
+			        left: 0,
+			        right: 0,
+			        bottom: 0,
+			        boundingCoords: [
+			            [-180, 90],
+			            [180, -90]
+			        ]
+			    },
+			    data: []
+			}
+			mapChart.setOption(pOp);
+			const option = {
+			    backgroundColor: '#333',
+			    visualMap: [{
+			        show: false,
+			        type: 'continuous',
+			        seriesIndex: 0,
+			        text: ['scatter3D'],
+			        textStyle: {
+			            color: '#fff'
+			        },
+			        calculable: true,
+			        max: 3000,
+			        inRange: {
+			            color: ['#87aa66', '#eba438', '#d94d4c'],
+			            symbolSize: [8, 30]
+			        }
+			    }
+			    ],
+			    globe: {
+			        baseTexture: "img/earth1.jpg",
+			        heightTexture: 'img/earth2.jpg',
+			        displacementScale: 0.04,
+			        shading: 'lambert',
+			        environment: 'img/bg.jpg',
+			        light: { // 光照阴影
+			            main: {
+			                color: '#fff', // 光照颜色
+			                intensity: 1.2, // 光照强度
+			                shadow: false, // 是否显示阴影
+			                alpha: 40,
+			                beta: -30
+			            },
+			            ambient: {
+			                intensity: 0.5
+			            }
+			        },
+			        viewControl: {
+			            projection: 'perspective',
+			            alpha: 90,
+			            beta: 0,
+			            center: [0, 50, 0], // 视角
+			            targetCoord: [110.46, 10.92], 
+			            autoRotate: true,
+			            autoRotateAfterStill: 10,
+			            distance: 50 // 视距
+			        },
+			        postEffectL: {
+			            enable: true,
+			            depthOfFieldL: {
+			                enable: true,
+			                focalDistance: 1000,
+			                fstop: 100
+			            }
+			        },
+			        layers: [{
+			            type: 'blend',
+			            texture: mapChart
+			        }]
+			    },
+			    series: [{
+			        type: 'scatter3D',
+			        coordinateSystem: 'globe',
+			        label: {
+			            show: false
+			        },
+			        emphasis: {
+			            label: {
+			                show: false
+			            }
+			        },
+			        data: []
+			    },{
+			        name: 'lines3D',
+			        type: 'lines3D',
+			        coordinateSystem: 'globe',
+			        effect: {
+			            show: true,
+			            period: 2,
+			            trailWidth: 1,
+			            trailLength: 0.5,
+			            trailOpacity: 1,
+			            trailColor: '#0087f4'
+			        },
+			        blendMode: 'lighter',
+			        lineStyle: {
+			            width: 1,
+			            color: '#0087f4',
+			            opacity: 0
+			        },
+			        data: [],
+			        silent: false,
+			        
+			    }]
+			}
+			
+			const myChart = echarts.init(document.getElementById('box'));
+			myChart.setOption(option);
+			
+			for (let i = 0; i < 50; i++) {
+			    option.series[1].data = option.series[1].data.concat(getRandomData())
+			}
+			
+			function getRandomData() {
+			    return {
+			        coords: [
+			            [Math.random() * 135.20, Math.random() * 53.33],
+			            [121.51585, 31.23045]
+			        ],
+			        value: (Math.random() * 30).toFixed(2)
+			    }
+			}
+		</script>
+	</body>
+</html>
