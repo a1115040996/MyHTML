@@ -150,11 +150,13 @@
 			}
 			
 			const myChart = echarts.init(document.getElementById('box'));
-			myChart.setOption(option);
 			
+			// 添加50条飞机线
 			for (let i = 0; i < 50; i++) {
 			    option.series[1].data = option.series[1].data.concat(getRandomData())
 			}
+			
+			myChart.setOption(option);
 			
 			function getRandomData() {
 			    return {
