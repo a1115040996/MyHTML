@@ -1,39 +1,60 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<style type="text/css">
+			html,
+			body {
+				color: #ffffff;
+				background: yellowgreen;
+			}
+		</style>
 	</head>
+
 	<body>
-		
+
 		<div id="globalArea"></div>
-		
+
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	    <script src="https://threejs.org/build/three.min.js"></script>
-	    <script src="js/gio.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://threejs.org/build/three.min.js"></script>
+		<script src="js/gio4.js" type="text/javascript" charset="utf-8"></script>
 		<!-- load data in this data script -->
-		<script src="https://raw.githack.com/syt123450/giojs/master/assets/data/sampleData.js"></script>
 		<script type="text/javascript">
 			// Get the container to hold the IO globe
-			var container = document.getElementById( "globalArea" );
+			var container = document.getElementById("globalArea");
 			// Create Gio.controller
-			var controller = new GIO.Controller( container );
+			var controller = new GIO.Controller(container);
 			controller.configure({
-			        color: {
-			        	surface: 0xFFFFFF,
-		                selected: 0xFF0000,
-		                in: 0x00ff00, // 入 线条
-		                out: 0x0000ff, // 出 线条
-		                halo: 0x0000ff, // 周围高亮颜色
-		                background: null // 整体背景颜色
-			        }
+				color: {
+					surface: 0x00949B,
+					selected: 0x00D6D6, // 选中国家颜色
+					in : 0x44fcf7, // 入 线条
+					out: 0x44fcf7, // 出 线条
+					halo: 0x00FFF2, // 光晕颜色
+					background: null, // 背景颜色
+				}
 			});
-			controller.lightenMentioned(true);
-			controller.adjustMentionedBrightness(0.8);
-			controller.addData( data );
+			var data = [
+			        {
+			                "e": "CN",
+			                "i": "US",
+			                "v": 3300000
+			        },
+			        {
+			                "e": "CN",
+			                "i": "RU",
+			                "v": 10000
+			        }
+			];
+			controller.addData(data);
+			controller.adjustOceanBrightness(1);
+			controller.setTransparentBackground(true);
 			// Initialize and render the globe
 			controller.init();
 		</script>
 	</body>
+
 </html>
