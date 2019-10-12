@@ -35,6 +35,9 @@
 					out: 0x44fcf7, // 出 线条
 					halo: 0x00FFF2, // 光晕颜色
 					background: null, // 背景颜色
+				},
+				brightness: {
+					mentioned: 10
 				}
 			});
 			var data = [
@@ -52,6 +55,7 @@
 			controller.addData(data);
 			controller.adjustOceanBrightness(1);
 			controller.setTransparentBackground(true);
+			// controller.setAutoRotation( true, 1 ); // 自传
 			// Initialize and render the globe
 			controller.init();
 		</script>

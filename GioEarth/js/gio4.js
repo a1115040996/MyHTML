@@ -1166,10 +1166,15 @@ function SurfaceHandler ( controller ) {
 
         // highlight related countries
 
-        ctx.fillStyle = generateFillStyle(
+       	/*
+         *2019-10-12
+         * Ljf
+         * 更改相关国家颜色
+         * */
+        /*ctx.fillStyle = generateFillStyle(
             Utils.transformBrightness( controller.configure.brightness.related, relatedMin, relatedMax )
-        );
-
+        );*/
+        ctx.fillStyle = '#FF0000'
         for ( i in controller.relatedCountries ) {
 
             ctx.fillRect( controller.relatedCountries[ i ].colorCode, 0, 1, 1 );
