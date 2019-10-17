@@ -9,7 +9,7 @@
 			html,
 			body {
 				color: #ffffff;
-				background: yellowgreen;
+				background: black;
 			}
 		</style>
 	</head>
@@ -23,6 +23,7 @@
 		<script src="js/gio4.js" type="text/javascript" charset="utf-8"></script>
 		<!-- load data in this data script -->
 		<script type="text/javascript">
+			
 			// Get the container to hold the IO globe
 			var container = document.getElementById("globalArea");
 			// Create Gio.controller
@@ -40,22 +41,191 @@
 					mentioned: 10
 				}
 			});
-			var data = [
-			        {
-			                "e": "CN",
-			                "i": "US",
-			                "v": 3300000
-			        },
-			        {
-			                "e": "CN",
-			                "i": "RU",
-			                "v": 10000
-			        }
-			];
+			var data = [{
+					"i": "CN",
+					"e": "QA",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "ZA",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "UA",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "PL",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "CH",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "PT",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "BE",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "FI",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "HU",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "AT",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "RU",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "CA",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "VN",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "IE",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "AU",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "ID",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "IT",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "NZ",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "SG",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "ES",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "FR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "TH",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "SE",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "JP",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "US",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "MY",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "NL",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "KR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "TR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "NP",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "NO",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "DK",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "BR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "MX",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "IN",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "AR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "LK",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "GR",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "AE",
+					"v": 3300000
+				},{
+					"e": "CN",
+					"i": "GB",
+					"v": 3300000
+				}, {
+					"i": "CN",
+					"e": "PH",
+					"v": 3300000
+				},{
+					"e": "CN",
+					"i": "CZ",
+					"v": 3300000
+				},{
+					"e": "CN",
+					"i": "DE",
+					"v": 3300000
+				},{
+					"e": "CN",
+					"i": "RS",
+					"v": 3300000
+				},{
+					"e": "CN",
+					"i": "IS",
+					"v": 3300000
+				}];
 			controller.addData(data);
 			controller.adjustOceanBrightness(1);
 			controller.setTransparentBackground(true);
-			// controller.setAutoRotation( true, 1 ); // 自传
+			 controller.setAutoRotation( true, 1 ); // 自传
 			// Initialize and render the globe
 			controller.init();
 		</script>

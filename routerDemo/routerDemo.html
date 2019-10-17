@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/routerDemo.css" />
+	</head>
+
+	<body>
+
+		<ul>
+			<li><a href="#/home">Home</a></li>
+			<li><a href="#/about">About Us</a></li>
+			<li><a href="#/production">Production</a></li>
+			<li><a href="#/joinus">Join Us</a></li>
+		</ul>
+
+		<div id="routerView">
+
+		</div>
+
+		<script type="text/javascript">
+			window.onload = function() {
+				// location.href = location.href;
+			}
+			window.addEventListener('hashchange', function(e) {
+				console.log(e.oldURL);
+				console.log(e.newURL)
+
+			}, false);
+
+			function Router() {
+
+			}
+			Router.prototype = {
+				routerList: [],
+				push: function(router) {
+					routerList.push(router);
+				},
+				/*
+				 router = {
+				 	name: '',
+				 	routerUrl: ''
+				 }
+				 * */
+				get: function(name) {
+					const len = routerList.length;
+					if (len <= 0) {
+						return {};
+					}
+					for (let i = 0; i<len;i++) {
+						if(routerList[i]['name'] === name){
+							return routerList[i];	
+						}
+					}
+					return {};
+				}
+			}
+		</script>
+	</body>
+
+</html>
