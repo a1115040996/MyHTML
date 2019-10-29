@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#container{
+    >div.red{
+        display: inline-block;
+        >ul{
+            font-size: 0px;
+            >li{
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 30px;
+                font-size: 16px;
+                
+            }
+            >li.select{
+                background: red;
+                color: #ffffff;
+            }
+        }
+        >ul:first-child{
+            display: none;
+        }
+
+    }
+    >div.blue{
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 50px;
+        >ul{
+            >li{
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 30px;
+                font-size: 16px;
+            }
+            >li.select{
+                background: deepskyblue;
+                color: #ffffff;
+            }
+        }
+        >ul:first-child{
+            display: none;
+        }
+    }
+}
+
+
+#totalContainer{
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    box-shadow:0px -15px 15px #efefef;
+    left: 0;
+    bottom: 0;
+    background: #ffffff;
+    margin: auto;
+    >div.totalRed{
+        display: inline-block;
+        >ul{
+            font-size: 0px;
+            >li{
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 30px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                
+            }
+            >li.select{
+                background: red;
+                color: #ffffff;
+            }
+        }
+        >ul:nth-child(2){
+            >li{
+                font-size: 12px;
+            }
+        }
+    }
+    >div.totalBlue{
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 50px;
+        >ul{
+            >li{
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 30px;
+                font-size: 16px;
+            }
+            >li.select{
+                background: deepskyblue;
+                color: #ffffff;
+            }
+        }
+    }
+}

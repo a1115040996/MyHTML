@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+  <!--百度地图容器-->
+  <div style="width:99.9%;height:600px;border:#ccc solid 1px;" id="dituContent"></div>
+</body>
+<script src="../echarts/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?ak=UAumsTfvpKBlNPUd9e5PvAEnR0YGNllO&v=2.0&services=true"></script>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(116.301934,39.977552);//定义一个中心点坐标
+        map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    
+    initMap();//创建和初始化地图
+    
+    function getRandomColor(hStep, idx){
+    	return echarts.color.modifyHSL('#5A94DF', Math.round(hStep * idx));
+    }
+    let idx = 0;
+    const searchList = ["多哈","约翰内斯堡","基辅","萨格勒布","克拉科夫","日内瓦","苏黎世","波尔图","里斯本","布鲁塞尔","赫尔辛基","布达佩斯","维也纳","圣彼得堡","莫斯科","多伦多","温哥华","台中","高雄","台北","芽庄","胡志明","都柏林","曼彻斯特","墨尔本","悉尼","布里斯托尔","伦敦","法兰克福","雅加达","慕尼黑","巴厘岛","柏林","佛罗伦萨","那不勒斯","杜塞尔多夫","米兰","汉堡","罗马","基督城","纽伦堡","奥克兰","新加坡","澳门","汉诺威","特内里费","科隆","拉斯帕尔马斯","瓦伦西亚","斯图加特","巴塞罗那","马德里","巴黎","苏梅岛","清迈","甲米","普吉岛","曼谷","斯德哥尔摩","大阪","札幌","冲绳","名古屋","东京","波斯顿","迈阿密","洛杉矶","旧金山","纽约","休斯顿","吉隆坡","布拉格","阿姆斯特丹","首尔","济州","图卢兹","里昂","尼斯","丹佛","丹佛","亚特兰大","京都","伊斯坦布尔","休斯顿","伯明翰","兰卡威","凯恩斯","加德满都","华沙","华盛顿哥伦比亚特区","卑尔根","卡尔加里","哥本哈根","圣保罗","圣地亚哥","圣地亚哥","坦帕","堪培拉","墨西哥城","奈良","奥兰多","奥斯汀","奥斯陆市","威尼斯","新奥尔良","孟买","新山","新德里","布宜诺斯艾利斯","布法罗","布里斯班","曼彻斯特","槟城","檀香山","沙巴","波士顿","济州岛","海参崴","渥太华","爱丁堡","珀斯","班加罗尔","皇后镇","盐湖城","神户","科伦坡","芝加哥","蒙特利尔","西雅图","贝尔格莱德","雅典","费城","辛辛那提","达拉斯","底特律","迪拜","里约热内卢","釜山","戛纳","阿德莱德","雷克雅未克","拉斯维加斯","马赛","鹿特丹","斗湖","马尼拉","中国香港","中国澳门","中国台湾","河内"];
+    const searchListLen = searchList.length;
+    const searchResultList = [];
+    const searchFailedList = [];
+    function getCityCenterPosition (cityName){
+    	const localSearch = new BMap.LocalSearch(cityName, {
+    		onSearchComplete: function (result){
+    			idx++;
+    			console.log(idx, searchList[idx], result);
+    			if(result['Ar'].length!==0){
+	    				searchResultList.push({
+	    				name: cityName,
+	    				value: [result['Ar'][0]['point']['lng'], result['Ar'][0]['point']['lat']]
+	    			});
+    			} else {
+    				searchFailedList.push(searchList[idx]);
+    			}
+    			if(idx >= searchListLen){
+    				console.log('done===>', JSON.stringify(searchResultList));
+    				console.log('done1===>', JSON.stringify(searchFailedList));
+    			} else {
+    				getCityCenterPosition(searchList[idx]);
+    			}
+    		}
+    	});
+    	localSearch.search(cityName);
+    }
+    
+    
+    getCityCenterPosition(searchList[0]);
+    
+
+</script>
+</html>

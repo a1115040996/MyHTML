@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="https://cdn.bootcss.com/babel-polyfill/7.6.0/polyfill.js"></script>
+		<script type="text/javascript">
+			function Job1 (jobid){
+				return new Promise ((resolve, reject)=>{
+					if(jobid === 1){
+						console.log(jobid);
+						resolve(1);
+					} else {
+						reject(jobid);
+					}
+				});
+			}
+			
+			function Job2 (jobid){
+				return new Promise ((resolve, reject)=>{
+					if(jobid === 2){
+						console.log(jobid);
+						resolve(2);
+					} else {
+						reject(jobid);
+					}
+				});
+			}
+			
+			
+			function Job3 (jobid){
+				return new Promise ((resolve, reject)=>{
+					if(jobid === 3){
+						console.log(jobid);
+						resolve(3);
+					} else {
+						reject(jobid);
+					}
+				});
+			}
+			
+			Job1(1).then(Job2(2)).then(Job3(3))
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
