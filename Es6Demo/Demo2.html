@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const GalleryCtrl = function (){
+				this.data = {
+					listData: [
+						{'name': '多哈', 'value': [51.511744, 25.292405]}, 
+			            {'name': '约翰内斯堡','value': [28.047305, -26.204103]},
+			            {'name': '基辅', 'value': [30.5234, 50.450099]}, 
+			            {'name': '萨格勒布','value': [15.981919, 45.815008]}, 
+			            {'name': '克拉科夫', 'value': [19.940063, 50.100353]}, 
+			            {'name': '日内瓦','value': [6.143158, 46.204389]}, 
+			            {'name': '斗湖', 'value': [112.238749, 30.067011]}, 
+			            {'name': '马尼拉','value': [120.98453, 14.58865]}, 
+			            {'name': '中国香港', 'value': [114.186125, 22.293586]}, 
+			            {'name': '中国澳门','value': [113.551589, 22.19316]}
+			        ],
+					colors: ['orange', 'skyblue', 'yellowgreen', 'yellow', 'gold']
+				}
+			}
+			GalleryCtrl.prototype = {
+				methods: function (){
+					const that = this;
+					function startLoop (){
+						const listDataLen = that.data.listData.length;
+			            let i = 0;
+			            loop();
+			            function loop(){
+			                setTimeout(function() {
+			                    i++;
+			                    if(i>=listDataLen){
+			                     i=0;   
+			                    }
+			                    console.log(i);
+			                    // option['series'][0]['data'] = [that.data.listData[i]];
+			                    // myChart.setOption(option, true);
+			                    loop();
+			                }, 2000);
+			            }
+					}
+					
+					function getRandomColor(){
+						return that.data.colors[Math.floor(Math.random() * that.data.colors.length)]
+					}
+					
+					return {
+						startLoop: startLoop.bind(this)
+					}
+				},
+				init: function (){
+					this.methods().startLoop()
+				}
+			}
+			const g = new GalleryCtrl()
+			g.init()
+		</script>
+	</body>
+</html>
