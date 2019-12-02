@@ -1,0 +1,9 @@
+.loopTransitionRotate(@n, @i) when (@n>@i){
+    .rotate180-@{i}{
+        transition: all 0.2s * @i;
+    }
+    .loopTransitionRotate(@n, @i+1);
+}
+
+
+.loopTransitionRotate(6, 1);

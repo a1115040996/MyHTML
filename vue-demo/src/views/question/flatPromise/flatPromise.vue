@@ -12,28 +12,28 @@
         },
         mounted() {
             const sleep = async (delay) => {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve) => {
                     setTimeout(resolve, delay);
                 })
             }
             console.log('flatPromise mounted');
             const job1 = async () => {
                 await sleep(2000); // 强制延时2s
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve) => {
                     resolve(1);
                 });
             }
 
             const job2 = async () => {
                 await sleep(2000); // 强制延时2s
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve) => {
                     resolve(2);
                 })
             }
 
             const job3 = async () => {
                 await sleep(2000); // 强制延时2s
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve) => {
                     resolve(3);
                 });
             }

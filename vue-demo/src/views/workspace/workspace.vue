@@ -5,18 +5,26 @@
 </template>
 
 <script>
+import $ from 'jQuery';
+import echarts from 'echarts';
+
 export default {
     name: "workspace.vue",
     components: {
     },
     data: ()=>{
         return {
+            myChart: {}
         }
     },
     mounted(){
+        console.log(123);
+        console.log('succ====>');
+        // const world = require('../../assets/plugin/world.js');
         this.init3DEarth();
     },
     methods: {
+
         init3DEarth() {
             const config = {
                 color: '#5EA6FE',
@@ -25,6 +33,7 @@ export default {
                 intensity: 2.5,
                 threshold: 0.01
             }
+            const that = this;
 
             const canvas = document.createElement('canvas');
             canvas.width = 2048;
@@ -35,7 +44,6 @@ export default {
             context.strokeStyle = config.color;
             context.fillStyle = config.color;
             context.shadowColor = config.color;
-
             $.when(
                 $.getScript('static/plugin/world.js'),
                 $.getScript('static/plugin/d3-contour.js'),
@@ -43,7 +51,6 @@ export default {
                 $.getScript('static/plugin/d3-timer.js')
             ).done(function () {
                 image('static/img/8.jpg').then(function (img) {
-                    console.log('start');
                     const m = img['height'],
                         n = img['width'],
                         values = new Array(n * m),
@@ -117,7 +124,7 @@ export default {
                 }
 
                 function initCharts(opt) {
-                    const myChart = echarts.init(document.getElementById('globalArea'))
+                    that.myChart = echarts.init(document.getElementById('globalArea'))
                     const canvas2 = document.createElement('canvas');
                     const mapChart = echarts.init(canvas2, null, {
                         width: 2048,
@@ -373,11 +380,14 @@ export default {
                     }
                     // 随机数据
 
-                    myChart.setOption(option);
+                    that.myChart.setOption(option);
                 }
-
             });
         }
+    },
+    destroyed() {
+        console.log('组件销毁====>', this.myChart);
+        this.myChart.clear();
     }
 }
 </script>
