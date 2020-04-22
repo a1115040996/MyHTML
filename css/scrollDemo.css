@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+#box {
+  width: 600px;
+  height: 600px;
+  border: 1px solid #ccc;
+  overflow-x: scroll;
+  margin: 0 auto;
+}
+ul {
+  list-style: none;
+  font-size: 0;
+  height: 600px;
+  width: 1200px;
+}
+ul li {
+  width: 100px;
+  height: 100%;
+  display: inline-block;
+}
+ul li:nth-child(1) {
+  background: orange;
+}
+ul li:nth-child(2) {
+  background: skyblue;
+}
+ul li:nth-child(3) {
+  background: yellow;
+}
+ul li:nth-child(4) {
+  background: green;
+}
+ul li:nth-child(5) {
+  background: aqua;
+}
+ul li:nth-child(6) {
+  background: palevioletred;
+}
+ul li:nth-child(7) {
+  background: wheat;
+}
+ul li:nth-child(8) {
+  background: gold;
+}
+ul li:nth-child(9) {
+  background: hotpink;
+}
+ul li:nth-child(10) {
+  background: chocolate;
+}
+ul li:nth-child(11) {
+  background: indianred;
+}
+ul li:nth-child(12) {
+  background: gold;
+}
+#scrollBar-container {
+  margin: 0 auto;
+  width: 800px;
+  height: 30px;
+  background: #f0f0f0;
+  position: relative;
+}
+#scrollBar-container > div.container {
+  width: 100%;
+  height: 30px;
+}
+#scrollBar-container > div.scroll {
+  width: 30px;
+  height: 30px;
+  background: orange;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  margin: auto;
+}
+/*# sourceMappingURL=scrollDemo.css.map */

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			
+			#box {
+				width: 792px;
+				height: 300px;
+				border: 1px solid #ddd;
+				margin: 100px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			#box_top {
+				position: absolute;
+				left: 0;
+				top: 20px;
+			}
+			
+			#box_top li {
+				float: left;
+				white-space: nowrap;
+			}
+			
+			#box_bottom {
+				width: 1600px;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				background: #e8e8e8;
+				height: 25px;
+			}
+			
+			#mask {
+				height: 25px;
+				background: orangered;
+				border-radius: 12px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box">
+			<ul id="box_top">
+				<li>PingWest品玩7月10讯，根据路透社报道，美国商务部长威尔伯·罗斯（Wilbur Ross）表示，美国商务部将在不危及美国国家安全的情况下，向华为的美国供应商发放许可证。罗斯表示，华为仍在实体清单中，并且禁止的项目范围也不会改变，这意味着申请许可证可能会被拒绝，但此次打开了申请许可证的大门。报道称，行业观察人士表示目前对实际政策的范围以及哪些类型将被批准或被拒绝尚不清楚，只能通过提交申请来确定。</li>
+			</ul>
+		</div>
+		
+		<div id="box_bottom">
+				<span id="mask"></span>
+			</div>
+
+		<script type="text/javascript">
+			window.onload = function() {
+				var box = document.getElementById("box")
+				var box_top = document.getElementById("box_top")
+				var box_bottom = document.getElementById("box_bottom")
+				var mask = document.getElementById("mask")
+
+				//          获取ul的总宽度
+				var li = box_top.children[0]
+				console.log(li.offsetWidth)
+					// var liL = box_top.children[0].offsetWidth * box_top.children.length
+				var liL = box_top.children[0].offsetWidth
+				box_top.style.width = liL + "px"
+
+				//          滚动条的长度 = (盒子的宽度 / 内容的宽度)*盒子的宽度
+				var mask_len = (box.offsetWidth / box_top.offsetWidth) * box.offsetWidth
+				mask.style.width = mask_len + "px"
+
+				//          鼠标操作
+				mask.onmousedown = function(e) {
+					e = e || event
+					var beginX = e.clientX - mask.offsetLeft
+					document.onmousemove = function(e) {
+						e = e || event
+						var endX = e.clientX - beginX
+						if (endX < 0) {
+							endX = 0
+						}
+						if (endX >= box.offsetWidth - mask.offsetWidth) {
+							endX = box.offsetWidth - mask.offsetWidth
+						}
+
+						mask.style.left = endX + "px"
+
+						//                  内容走的距离 = （内容的长度 - 盒子的长度 ）/ （盒子的长度 - 滚动条的长度）*滚动条走的距离
+						var contentL = (box_top.offsetWidth - box.offsetWidth) / (box.offsetWidth - mask.offsetWidth) * endX
+						box_top.style.left = -contentL + "px"
+						window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty() //防止拖动时选中内容      
+					}
+					document.onmouseup = function(e) {
+						e = e || event
+						document.onmousemove = null
+					}
+
+				}
+			}
+		</script>
+	</body>
+
+</html>

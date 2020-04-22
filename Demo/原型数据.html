@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			function Person() {
+				var b = 0; // 相当于private定义的数据 不对外暴露
+				 this.b = 1; // 相当于 class 内部数据 public 数据 对外暴露 new的时候创建
+			}
+			
+			Person.b = 2; // 相当于class 内部定义static的数据 可以通过此方法获取
+			Person.prototype.b = 3; // 对于所有的person进行复制 
+			var person = new Person();
+			console.log(person.b); // 如果person 自身有此变量(this定义的变量)  那么就取自身的变量 如果没有 那么就从prototype上找 
+			console.log(Person.b);
+
+		</script>
+	</body>
+
+</html>

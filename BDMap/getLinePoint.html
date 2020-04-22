@@ -82,7 +82,7 @@
 	        onGetBusListComplete: function(result){
 	        	idx++;
 	        	console.log(idx);
-	           if(result && result['NA'].length !==0) {
+	           if(result && result['ZA'] && result['ZA'].length !==0) {
 	            var fstLine = result.getBusListItem(0);//获取第一个公交列表显示到map上
 				 busLineSearch.getBusLine(fstLine)
 	           }
@@ -101,7 +101,7 @@
 				}
 				console.log(result['company'])
 				if(result['company'].indexOf(cityName)!==-1){
-					searchResult.push(formatterPosition(result['Ti']['ia']));
+					searchResult.push(formatterPosition(result['Yi']['ia']));
 				}
 				if(idx>=searchList.length){
 					console.log('done')
