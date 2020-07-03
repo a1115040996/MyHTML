@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+				border: 2px solid #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			
+		</div>
+		<script type="text/javascript">
+			const arr = [	
+						{name: '1', age: 11},
+						{name: '2', age: 12},
+						{name: '3', age: 13},
+						{name: '4', age: 14},
+						{name: '5', age: 15},
+						].filter(item=>{
+							if(item['age'] % 2===0){
+								return true;
+							}
+						});
+						console.log(arr);
+						
+						function RC(cb){
+							var canclick = true;
+							return function (){
+								console.log(canclick);
+								if(canclick){
+									canclick = false;
+									cb();
+									setTimeout(()=>{
+										
+									}, 200);
+								} else {
+									console.log('can not click');
+								}
+							}
+						}
+						
+						
+						document.getElementById('box').onclick = function (){
+							RC(()=>{
+								console.log('click');
+							})()
+						}
+						
+		</script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function getMsg (idx){
+				if(idx===1){
+					return 1; 
+				} else {
+					return getMsg(--idx) * idx;
+				}
+			}
+			
+			console.log(getMsg(6))
+		</script>
+	</body>
+</html>

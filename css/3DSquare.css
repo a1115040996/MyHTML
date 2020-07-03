@@ -1,0 +1,60 @@
+* {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: black;
+  perspective: 1600px;
+}
+#squareContainer {
+  width: 600px;
+  height: 600px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+#squareContainer > li {
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+#squareContainer > li:nth-child(1) {
+  background: orange;
+  transform: translateZ(-300px);
+}
+#squareContainer > li:nth-child(2) {
+  background: skyblue;
+  transform: rotateX(-90deg) translateZ(300px);
+}
+#squareContainer > li:nth-child(3) {
+  background: gold;
+  transform: rotateX(90deg) translateZ(300px);
+}
+#squareContainer > li:nth-child(4) {
+  background: greenyellow;
+  transform: translateZ(300px);
+}
+#squareContainer > li:nth-child(5) {
+  background: aqua;
+  transform: rotateY(-90deg) translateZ(300px);
+}
+#squareContainer > li:nth-child(6) {
+  background: pink;
+  transform: rotateY(90deg) translateZ(300px);
+}
+/*# sourceMappingURL=3DSquare.css.map */

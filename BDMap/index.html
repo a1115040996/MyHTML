@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+  <!--百度地图容器-->
+  <div style="width:99.9%;height:600px;border:#ccc solid 1px;" id="dituContent"></div>
+  <div id="location">
+  	坐标点
+  	<div id="location-list">
+  		<dl class="point1">
+  			<dt>纵坐标:<span class="xp">116.301934</span></dt>
+  			<dd>横坐标:<span class="yp">39.977552</span></dd>
+  		</dl>
+  	</div>
+  	<div id="ipt-location">
+  		<dl>
+  			<dt>输入纵坐标：<input type="text" name="" id="xPoint" value="" /></dt>
+  			<dd>输入横坐标：<input type="text" name="" id="yPoint" value="" /></dd>
+  		</dl>
+  		<div id="addPoint">添加线路点</div>
+  	</div>
+  </div>
+  <div id="btn">
+  	点击我生成路线
+  </div>
+</body>
+<script src="js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?ak=UAumsTfvpKBlNPUd9e5PvAEnR0YGNllO&v=2.0&services=true"></script>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(116.301934,39.977552);//定义一个中心点坐标
+        map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    
+    initMap();//创建和初始化地图
+    
+    var _index = 0;
+    //相邻坐标点 
+    var pointArray = [];
+    var allMapPointArray = [];
+    $("#addPoint").click(function(){
+    	var xpoint = $("#xPoint").val().trim();
+    	var ypoint = $('#yPoint').val().trim();
+    	pointArray.push(new BMap.Point(xpoint, ypoint));
+    	
+    	//dom添加
+    	var temp =  $(".point1").eq(0).clone(true,true);
+    	temp.find('.xp').html(xpoint);
+    	temp.find('.yp').html(ypoint);
+    	$("#location-list").append(temp)
+    });
+    
+    $('#btn').on('click', function () {
+    	//pointArray.push(new BMap.Point(122.361609,37.388692))
+    	//pointArray.push(new BMap.Point(122.55612,37.373781))
+      	//pointArray.push(new BMap.Point(122.573276,37.248397))
+      	//pointArray.push(new BMap.Point(122.493441,37.170755))
+
+        var driving = new BMap.DrivingRoute(map,{
+                policy: BMAP_DRIVING_POLICY_LEAST_DISTANCE,
+            }
+        );
+
+
+			
+		var pointTwoArray = [];
+		for (var i=0;i<pointArray.length;i++) {
+			//是否是奇数点
+			//是否数组越界
+			if(i!=(pointArray.length-1)){
+				pointTwoArray.push(pointArray.slice(i,i+2));
+			}
+		}
+		
+		pointTwoArray.forEach(function(value,index){
+			_index++;
+			driving.search(value[0],value[1]);
+		});
+		driving.setSearchCompleteCallback(function(){
+			 var pts = driving.getResults().getPlan(0).getRoute(0).getPath();
+				var polyline = new BMap.Polyline(pts, {strokeColor:"yellowgreen",//设置颜色 
+			        strokeWeight:3, //宽度
+			        strokeOpacity:1.0});//透明度
+			 map.addOverlay(polyline);
+			 
+			 map.centerAndZoom(pts[0],12);
+		});
+    });
+    
+
+</script>
+</html>

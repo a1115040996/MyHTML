@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="box">click to test</div>
+		<script src="https://cdn.bootcss.com/rxjs/6.4.0/rxjs.umd.js"></script>
+		<script type="text/javascript">
+			var inputStream = new rxjs.Observable(function(subscribes){
+				subscribes.next(1);
+				subscribes.next(1);
+				subscribes.next(1);
+				subscribes.complete(2);
+				subscribes.next(1);
+			})	
+			
+			inputStream.pipe(map(x=>x*x)).subscribe(function(data){
+				console.log(data);
+			})
+			
+			/*rxjs.interval(1000).subscribe(function(){
+				console.log(1,'===============<<<<')
+			});*/
+			
+		</script>
+	</body>
+</html>

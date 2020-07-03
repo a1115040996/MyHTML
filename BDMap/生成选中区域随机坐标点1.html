@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=1nCQCnDr3Nt3GKDVeBmKGe2Y"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+	<style type="text/css">
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+		#divInfo{
+			color: red;
+		}
+		#closeLine{
+			height: 50px;
+			margin: 10px auto auto;
+			background: deepskyblue;
+			color: #333;
+			font-size: 22px;
+			text-align: center;
+			line-height: 50px;
+			width: 300px;
+			border-radius: 20px;
+		}
+		#example{
+			width: 300px;
+			height: 300px;
+			position: fixed;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			background: url("./img/GIF.gif") no-repeat center center;
+			background-size: 300px;
+		}
+		.text{
+			text-align: center;
+			font-size: 22px;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+    <div id="allmap" style="width:100%;height:600px"></div>
+    <div id="divInfo">说明： 点击地图绘制线条 （至少需要点击地图三次 才会生成闭合元素）</div>
+    <div id="closeLine">生成闭合元素</div>
+    <div id="example">
+    	<div class="text">示例</div>
+    </div>
+    <div id="outputPointWrapper">
+    	<div id="title">生成选中的数据信息为： </div>
+    	<div id="outputPoint"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+	
+	const total = 100; // 生成的随机点的大小
+	const totalPointList = []; // 坐标点集合
+	const centerPoint = [121.466975,31.206904]; // 中央坐标区域
+	const offetStepX = 8;
+	const offetStepY = 8;
+	const cityName = '上海市';
+	const linesPoint  = [];
+    window.onload = function () {
+		var pointss="";
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(centerPoint[0], centerPoint[1]), 10);
+        var polyline = new BMap.Polyline(); //折线覆盖物
+        
+        drawCityOutline(cityName);
+        
+		// 绘制折线图覆盖区域
+		map.addEventListener("click",function(e){   //单击地图，形成折线覆盖物
+		    newpoint = new BMap.Point(e.point.lng,e.point.lat);
+	        linesPoint.push(newpoint);  //将新增的点放到数组中
+	        polyline.setPath(linesPoint);   //设置折线的点数组
+	        map.addOverlay(polyline);   //将折线添加到地图上
+	        addMarker(map, newpoint, "img/flag_icon.png", 30);
+	        
+		});
+		
+		document.getElementById('closeLine').onclick = function (){
+			
+			var polygon = new BMap.Polygon(linesPoint, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形  
+		    map.addOverlay(polygon);   //增加多边形  
+	        
+	        setTimeout(()=>{
+	         	getRandomPointList(polygon);
+	         }, 200)
+		}
+		
+		
+		function getRandomPointList(ply){
+			var res = "", minX = centerPoint[0], minY = centerPoint[1], x = 0, y = 0,pt=null;
+			for (var j = 0; j < total; j++) {
+                    x = minX + getRandom() * offetStepX;
+                    y = minY + getRandom() * offetStepY;
+                    pt = new BMap.Point(x, y);
+                    addMarker(map, pt);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+                      totalPointList.push({
+							name: "", 
+							value: 10, 
+							geoCoord: [x, y]
+						})
+                    }
+                }
+				for (var k = 0; k < total; k++) {
+                    x = minX + getRandom() * offetStepX;
+                    y = minY - getRandom() * offetStepY;
+                    pt = new BMap.Point(x, y);
+                    addMarker(map, pt);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+						 totalPointList.push({
+							name: "", 
+							value: 10, 
+							geoCoord: [x, y]
+						})
+                    }
+                }
+				for (var l = 0; l < total; l++) {
+                    x = minX - getRandom() * offetStepX;
+                    y = minY + getRandom() * offetStepY;
+                    pt = new BMap.Point(x, y);
+                    addMarker(map, pt);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+						 totalPointList.push({
+							name: "", 
+							value: 10, 
+							geoCoord: [x, y]
+						})
+                    }
+                }
+				for (var m = 0; m < total; m++) {
+					console.log('start');
+                    x = minX - getRandom() * offetStepX;
+                    y = minY - getRandom() * offetStepY;
+                    pt = new BMap.Point(x, y)
+                    addMarker(map, pt);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+						 totalPointList.push({
+							name: "", 
+							value: 10, 
+							geoCoord: [x, y]
+						})
+                    }
+                }
+				document.getElementById('outputPoint').innerHTML = JSON.stringify(totalPointList)
+				console.log(JSON.stringify(totalPointList));
+		}
+		
+		function drawCityOutline(cityName){
+			var bdary = new BMap.Boundary();
+			bdary.get(cityName, function (rs) {
+				console.log('get ==============>', rs);
+			 	var pointArray = [];
+			 	var count = rs.boundaries.length;
+			 	for (var i = 0; i < count; i++) {
+			 		var ply = new BMap.Polygon(rs.boundaries[i]); 
+			 		map.addOverlay(ply);
+			 		pointArray = pointArray.concat(ply.getPath());
+			 		map.setViewport(pointArray);
+			 	}
+			})
+		}
+		
+    }
+
+
+    function getRandom() {
+        return Math.random() / 10;
+    }
+    
+    function addMarker(map, point, iconPath, size){
+        var myIcon = new BMap.Icon(iconPath || "img/flag_icon_blue.png", new BMap.Size(size || 20, size || 20), {
+        });
+
+
+        var marker = new BMap.Marker(point, { icon: myIcon });
+
+        map.addOverlay(marker);
+
+        // marker.enableDragging();
+    }
+</script>

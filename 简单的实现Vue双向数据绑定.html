@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" name="ipt" id="ipt" value="" />
+		<p id="p_text"></p>
+		
+		<script type="text/javascript">
+			// 数据驱动
+			var obj = {
+				msg: ''
+			}
+			
+			Object.defineProperty(obj,'msg',{
+				set: function(v){
+					document.getElementById("p_text").innerHTML = v
+				}
+			})
+			
+			document.getElementById("ipt").oninput = function(){
+				obj.msg = this.value
+			}
+			
+		</script>
+	</body>
+</html>

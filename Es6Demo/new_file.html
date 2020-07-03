@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+			}
+			.green{
+				background: green;
+			}
+			.red{
+				background: red;
+			}
+			.yellow{
+				background: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script type="text/javascript">
+			function changeColor(color){
+				document.getElementById('box').style.backgroundColor = color;
+				
+			}
+			
+			async function sleep(delay){
+				return new Promise((resolve, reject)=>{
+					setTimeout(()=>{
+						resolve();
+					},delay)
+				})
+			}
+			
+			async function main(){
+				while(true){
+					changeColor('green');
+					await sleep(3000);
+					changeColor('red');
+					await sleep(1000);
+					changeColor('yellow');
+					await sleep(2000);
+				}
+			}
+			main();
+		</script>
+	</body>
+</html>

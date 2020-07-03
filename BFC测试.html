@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box{
+				width: 800px;
+				height: 800px;
+				border: 1px solid #ccc;
+				display: inline-block;
+				margin-left: 20px;
+				vertical-align: top;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 并未触发BFC模式 -->
+		<div class="box">
+			<div style="float: left;width: 100px;height: 100px;background: yellow;">
+				左浮动元素左浮动元素左浮动元素左浮动元素左浮动元素
+			</div>
+			<!-- 并未触发 BFC -->
+			<div style="width: 200px;height: 200px;background: greenyellow;">
+				没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素
+			</div>
+		</div>
+		
+		<!-- 触发BFC模式 -->
+		<div class="box">
+			<div style="float: left;width: 100px;height: 100px;background: yellow;">
+				左浮动元素左浮动元素左浮动元素左浮动元素左浮动元素
+			</div>
+			<!-- 并未触发 BFC -->
+			<div style="width: 200px;height: 200px;background: greenyellow;overflow: hidden;">
+				没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素没有浮动的元素
+			</div>
+		</div>
+	</body>
+</html>

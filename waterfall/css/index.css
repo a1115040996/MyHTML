@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+ul {
+  list-style: none;
+  font-size: 0px;
+}
+ul > li {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+}
+ul > li > div {
+  vertical-align: top;
+  margin-bottom: 10px;
+}
+/*# sourceMappingURL=index.css.map */

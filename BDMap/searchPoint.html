@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+  <!--百度地图容器-->
+  <div style="width:99.9%;height:600px;border:#ccc solid 1px;" id="dituContent"></div>
+  <div id="location">
+  	坐标点
+  	<div id="location-list">
+  		<dl class="point1">
+  			<dt>纵坐标:<span class="xp">116.301934</span></dt>
+  			<dd>横坐标:<span class="yp">39.977552</span></dd>
+  		</dl>
+  	</div>
+  	<div id="ipt-location">
+  		<dl>
+  			<dt style="width: 100%;text-align: center;">输入公交线路名称：<input type="text" name="" id="busName" value="52路" /></dt>
+  		</dl>
+  	</div>
+  </div>
+  <div id="btn">
+  	点击我生成路线
+  </div>
+</body>
+<script src="js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?ak=UAumsTfvpKBlNPUd9e5PvAEnR0YGNllO&v=2.0&services=true"></script>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(116.301934,39.977552);//定义一个中心点坐标
+        map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    
+    initMap();//创建和初始化地图
+    
+    $('#btn').on('click', function () {
+        var busLineSearch = new BMap.BusLineSearch('上海', {
+		    renderOptions:{map:map, panel:"results"}, // 将查询到的地图线路信息 绘制到视图上
+	        onGetBusListComplete: function(result){
+	           if(result) {
+	            var fstLine = result.getBusListItem(0);//获取第一个公交列表显示到map上
+				busLineSearch.getBusLine(fstLine)
+	           }
+	
+	        },
+	        onGetBusLineComplete: function(result){
+				console.log('get result====>', result['Ti']['ia']); // 获取当前查询的公交线路所有的经纬度点的信息
+	        }
+		});
+		
+		busLineSearch.getBusList(document.getElementById('busName').value);
+
+    });
+    
+
+</script>
+</html>

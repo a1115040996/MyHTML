@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--引入播放器样式-->
+    <link rel="stylesheet" type="text/css" href="plugin/video-js.min.css"/>
+    <!--引入播放器js-->
+    <script src="plugin/video.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="plugin/videojs-flash.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+
+<video 
+	id="my-player" 
+	class="video-js vjs-default-skin vjs-big-play-centered" muted preload="auto" autoplay="autoplay"
+    width="1000" height="1000" data-setup='{}'>
+    <!--src: 规定媒体文件的 URL  type:规定媒体资源的类型-->
+    <source src='rtmp://192.168.199.147:1935/live/test' type='rtmp/flv'/>
+</video>
+
+
+<script type="text/javascript">
+    // 设置flash路径,用于在videojs发现浏览器不支持HTML5播放器的时候自动唤起flash播放器
+    var player = videojs('my-player'); //my-player为页面video元素的id
+    player.play(); //播放
+    
+</script>
+</body>
+</html>

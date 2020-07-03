@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/squareCrashDemo.css"/>
+	</head>
+	<body>
+		<div id="GreenBox"></div>
+		<div id="BlueBox"></div>
+	</body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var GreenBox = document.getElementById("GreenBox");
+			var BlueBox = document.getElementById("BlueBox");
+			function BoxMove(box){
+				var BoxStartX =0,
+					BoxStartY =0,
+					BoxMoveX =0,
+					BoxMoveY=0,
+					BoxEndX =parseInt(window.getComputedStyle(box,null).left),
+					BoxEndY=parseInt(window.getComputedStyle(box,null).top);
+				box.onmousedown = function(ev){
+					var e = ev||event;
+					BoxStartX = e.clientX;
+					BoxStartY = e.clientY;
+					this.onmousemove = function(ev){
+						var e = ev||event;
+						BoxMoveX = e.clientX - BoxStartX  + BoxEndX;
+						BoxMoveY = e.clientY - BoxStartY  + BoxEndY;
+						this.style.left = BoxMoveX+'px';
+						this.style.top = BoxMoveY+'px';
+						this.style.zIndex = '10000';
+						
+						this.onmouseup = function(ev){
+							var zNum = 0;
+							this.onmousemove = null;	
+							BoxEndX = parseInt(window.getComputedStyle(box,null).left);
+							BoxEndY = parseInt(window.getComputedStyle(box,null).top);
+							this.style.zIndex = '0';
+							return false;
+						}
+						
+						this.onmouseleave = function(){
+							this.onmousemove = null;	
+							BoxEndX = BoxMoveX;
+							BoxEndY = BoxMoveY;
+							this.style.zIndex = '0';
+							return false;
+						}
+					}
+					
+					
+					return false;
+				}
+			}
+			
+			BoxMove(BlueBox);
+			BoxMove(GreenBox);
+		}
+	</script>
+</html>

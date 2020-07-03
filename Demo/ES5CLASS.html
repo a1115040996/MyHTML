@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function User (id){
+				return User.prototype.getName(id);
+			}
+			// 基于原型实现
+			User.prototype = (function(){
+				var privateMsg = {
+					UserMsg: {
+						name: 'zhangsna',
+						age: 18
+					}
+				};
+				return {
+					getName: function(id){
+						console.log(id, privateMsg.UserMsg.name);
+						return privateMsg.name;
+					}
+				}
+			})();
+			User(123);
+		</script>
+	</body>
+</html>

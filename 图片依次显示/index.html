@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			function loadImg(imgSrc){
+				var index = 0;
+				
+				function loadImg(index){
+					var img = new Image();
+					var len = imgSrc.length;
+					
+					img.src = imgSrc[index++];
+					
+					img.onload = function(){
+						console.log('完毕 添加数据',index);
+						$("body").append(img);
+						img.className = 'show';
+						if(index>=len){
+							return;
+						}else{
+							setTimeout(function(){
+								loadImg(index)
+							},100)
+						}
+					}
+					
+				}
+				
+				loadImg(0);
+			}
+			
+			var imgSrc = [
+				'https://f12.baidu.com/it/u=2321879539,476079231&fm=72',
+				'http://img1.imgtn.bdimg.com/it/u=512079282,345613195&fm=200&gp=0.jpg',
+				'http://img0.imgtn.bdimg.com/it/u=1598624185,1349517491&fm=200&gp=0.jpg',
+				'http://img1.imgtn.bdimg.com/it/u=2539347311,2104405626&fm=200&gp=0.jpg',
+				'http://img1.imgtn.bdimg.com/it/u=1038240581,3069144500&fm=200&gp=0.jpg',
+				'http://img5.imgtn.bdimg.com/it/u=2353791268,2923407047&fm=200&gp=0.jpg',
+				'http://img2.imgtn.bdimg.com/it/u=3016014385,4010895485&fm=200&gp=0.jpg'
+			]
+		
+		
+			loadImg(imgSrc)
+		</script>
+	</body>
+</html>

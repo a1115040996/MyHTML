@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			// 手写一个promise
+			function Prom (exector){
+				const self = this;
+				self.status = 'pending'; // 当前promise状态
+				self.value = undefined; // 成功时候 value的值
+				self.reson = undefined; // 失败时候 的reson
+				
+				function resolve(value){
+					if(self.status === 'pending'){ // 因为promise的状态 不可逆 
+						self.status = 'resolve';
+						self.value = value;
+					}
+				}
+				
+				function reject(e){
+					if(self.status === 'pending'){ // 状态不可逆
+						self.status = 'reject';
+						self.reson = e; // 将失败时的信息赋值给reson
+					}
+				}
+				
+				try{
+					exector(resolve, reject);
+				}catch(e){
+					//TODO handle the exception
+					reject(e);
+				}
+			}
+			
+			Prom.prototype.then = function (onResolve, onReject){
+				const status = this.status;
+				if(status ==== 'resolve'){
+					onResolve(this.value);
+				}
+				
+				if(status === 'reject'){
+					onReject(this.reson);
+				}
+			}
+		</script>
+	</body>
+
+</html>

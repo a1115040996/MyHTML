@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script src="https://cdn.bootcss.com/babel-polyfill/7.6.0/polyfill.js"></script>
+		<script type="text/javascript">
+		console.log(Es6Promise)
+		// 实现一个红绿灯 绿灯3s 变为红灯  红灯2s变为黄灯 黄灯1s变为绿灯
+			async function sleep(delay){
+				return new Promise((resolve, reject)=>{
+					setTimeout(resolve, delay);
+				});
+			}
+			
+			function changeColor (name){
+				document.getElementById('box').style.background = name;
+			}
+			
+			async function main (){
+				while (true){
+					changeColor('green');
+					await sleep(3000);
+					changeColor('red');
+					await sleep(2000);
+					changeColor('yellow');
+					await sleep(1000);
+				}
+			}
+			
+			main();
+			
+			
+		</script>
+	</body>
+</html>

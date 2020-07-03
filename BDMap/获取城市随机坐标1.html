@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1nCQCnDr3Nt3GKDVeBmKGe2Y"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+<script type="text/javascript" src="FileSaver.js" charset="utf-8"></script>
+
+</head>
+<body>
+    <div id="allmap" style="width:1000px;height:500px"></div>
+    <div id="divInfo"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+    window.onload = function () {
+		var pointss="";
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(116.403039,39.915573), 5);
+        map.enableScrollWheelZoom();
+
+
+        var bdary = new BMap.Boundary();
+        bdary.get("北京市", function (rs) {       //获取行政区域
+            map.clearOverlays();        //清除地图覆盖物       
+            var count = rs.boundaries.length; //行政区域的点有多少个
+            if (count === 0) {
+                alert('未能获取当前输入行政区域');
+                return;
+            }
+            var pointArray = [];
+            for (var i = 0; i < count; i++) {
+              
+                var ply = new BMap.Polygon(rs.boundaries[i]); //建立多边形覆盖物
+                map.addOverlay(ply);  //添加覆盖物
+                pointArray = pointArray.concat(ply.getPath());
+                map.setViewport(pointArray);
+
+                var res = "", minX = 116.403039, minY = 39.915573, x = 0, y = 0,pt=null;
+
+                for (var j = 0; j < 3000; j++) {
+                    x = minX + getRandom();
+                    y = minY + getRandom();
+                    pt = new BMap.Point(x, y);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+                      
+                      //  var marker = marker = new BMap.Marker(new BMap.Point(x, y));
+					  var strr=y+","+x+"\n";
+                      pointss+=strr;
+                        //map.addOverlay(marker);
+                        //res += 'marker = new BMap.Marker(new BMap.Point(' + x + ' ,' + y + '));<br/>map.addOverlay(marker);<br/>  ';
+                    }
+                }
+				for (var j = 0; j < 3000; j++) {
+                    x = minX + getRandom();
+                    y = minY - getRandom();
+                    pt = new BMap.Point(x, y);
+                    if (BMapLib.GeoUtils.isPointInPolygon(pt, ply)) {
+                      
+                        //var marker = marker = new BMap.Marker(new BMap.Point(x, y));
+                       // map.addOverlay(marker);
+					   var strr=y+","+x+"\n";
+						 pointss+=strr;
+                        //res += 'marker = new BMap.Marker(new BMap.Point(' + x + ' ,' + y + '));<br/>map.addOverlay(marker);<br/>  ';
+                    }
+                }
+
+
+                divInfo.innerHTML = res;
+            }
+
+					console.log(pointss);
+   var blob = new Blob([pointss], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "file.txt");//saveAs(blob,filename) 
+           // map.setViewport(pointArray);    //调整视野  
+            //addlabel();
+        });
+
+
+        //document.getElementById("divInfo").innerHTML = Math.random()/4;
+    }
+
+
+    function getRandom() {
+        return Math.random() / 10;
+    }
+</script>

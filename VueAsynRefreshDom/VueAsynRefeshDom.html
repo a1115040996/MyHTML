@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/VueRefresh.css"/>
+	</head>
+	<body>
+		
+		<template id="userTemp">
+			<div>
+				<p>姓名：<span>{{usermsg[0].name}}</span></p>
+				<p>年龄：<span>{{usermsg[0].old}}</span></p>
+				<p>性别：<span>{{usermsg[0].sex}}</span></p>
+			</div>
+		</template>
+		
+		<div id="userList">
+			<div id="user_one"></div>
+		</div>
+		
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				var users = new Vue({
+					el:"#userList",
+					data:{
+						usermsg:[{
+							name:'张三',
+							old:'20',
+							sex:'man'
+						}],
+					},
+					mounted:function(){
+						setTimeout(function(){
+							console.log('执行');
+						},2000);
+					},
+					
+					methods:{
+					},
+					
+				});
+				
+				
+				var user_1 = Vue.extend({
+					template:"#userTemp",
+					data:function(){
+						return {
+							usermsg:[{
+								name:'李四',
+								old:'22',
+								sex:'woman'
+							}],
+						}
+					},
+					mounted:function(){
+						var _this = this;
+						setTimeout(function(){
+							Vue.set(_this.usermsg,0,{
+								name:'张三',
+								old:'20',
+								sex:'man'
+							});
+						},2000);
+					},
+					methods:{
+						
+					}
+				});
+				var userOne = new user_1();
+				userOne.$mount('#user_one');
+				
+				
+			}
+		</script>
+	</body>
+</html>

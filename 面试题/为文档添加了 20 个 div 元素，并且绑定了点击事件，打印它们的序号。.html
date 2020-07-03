@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+		/*
+		 * 第一种解法  使用自定义属性暂存 i 的值
+		 * */
+			/*for (let i =0;i<20;i++) {
+				const mDiv = document.createElement('div');
+				mDiv.idx = i;
+				mDiv.innerHTML = i;
+				mDiv.onclick = function(){
+					console.log(this.idx);
+				}
+				document.body.appendChild(mDiv);
+			}
+			*/
+			
+			/*
+			 * 第二种解法 使用闭包 
+			 * 利用闭包的特性 暂存i的值 
+			 * */
+			for (let i =0;i<20;i++){
+				(function(i){
+					const mDiv = document.createElement('div');
+					mDiv.innerHTML = i;
+					mDiv.onclick = function (){
+						console.log(i)
+					}
+					document.body.appendChild(mDiv);
+				})(i);
+			}
+		</script>
+	</body>
+</html>

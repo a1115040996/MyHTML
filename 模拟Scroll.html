@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/scrollDemo.css" />
+	</head>
+
+	<body>
+		<div id="box">
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+
+		<div id="scrollBar-container">
+			<div class="container">
+
+			</div>
+			<div class="scroll"></div>
+		</div>
+
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			const noop = () => {};
+			const $scrollBar = $('.scroll');
+			let scrollBarOffsetX = $scrollBar.offset().left;
+			const scrollBarWidth = 100;
+			const $box = $('#box')[0];
+			function init(){
+				$scrollBar.css({
+					width: scrollBarWidth
+				})
+			}
+			init();
+			
+			$('.scroll').mousedown(function(ev) {
+				const e = event || ev;
+				console.log('mouse down', e);
+				// 点击点 距离滑块最左侧的距离 
+				const offsetX = e.offsetX;
+
+				document.onmousemove = function(ev) {
+					const e = event || ev;
+					setTimeout(() => {
+						$scrollBar.css({
+							left: e.clientX - (scrollBarOffsetX+offsetX)
+						});
+						$box.scrollLeft = e.clientX - (scrollBarOffsetX+offsetX);
+					}, 50);
+					console.log(e);
+					e.stopPropagation();
+					e.preventDefault();
+					return false;
+				}
+
+				document.onmouseup = function(ev) {
+					const e = event || ev;
+					document.onmousemove = null;
+					e.stopPropagation();
+					e.preventDefault();
+					// scrollBarOffsetX = $box.scrollLeft+$scrollBar.offset().left;
+					return false;
+				}
+			});
+		</script>
+	</body>
+
+</html>

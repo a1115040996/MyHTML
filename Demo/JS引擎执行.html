@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+		/*
+											 
+		 * 1.语法检测
+		 * 2.预编译(变量提权)
+		 * 3.执行(自上而下、自左而右)
+		 * 
+		 * */
+		fn(); // public fn
+
+		function fn() {
+			console.log('public fn');
+		}
+
+		fn(); // public fn
+
+		var fn = function() {
+			console.log('var fn');
+		}
+
+		fn(); // var fn
+		
+		
+		for (let i = 0;i<10;i++){
+			let isEqu = false;
+			for (let j = 0;j<10;j++){
+				if(i===3&&j===2){
+					isEqu= true;
+					break;
+				}
+			}
+			if(isEqu){
+				break;
+			}
+			console.log(i);
+		}
+		</script>
+	</body>
+
+</html>

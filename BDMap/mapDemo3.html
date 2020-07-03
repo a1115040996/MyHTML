@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>  
+<head>  
+    <style type="text/css">  
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}  
+        #allmap {height:500px; width: 100%;}  
+        #control{width:100%;}  
+    </style>  
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=iqgvSM0gddG4NkGXFlawVa6C"></script>      
+    <script type="text/javascript" src="GeoUtils.js"></script>  
+</head>  
+<body>  
+    <div id="allmap"></div>  
+    <div id="control">  
+        <button onclick = "polyline.enableEditing();polygon.enableEditing();">开启线、面编辑功能</button>  
+        <button onclick = "polyline.disableEditing();polygon.disableEditing();">关闭线、面编辑功能</button>  
+    </div>  
+<script type="text/javascript">  
+    // 百度地图API功能  
+    var map = new BMap.Map("allmap");  
+    map.centerAndZoom(new BMap.Point(106.613922,29.53832), 15);  
+    map.enableScrollWheelZoom();  
+  
+    var polyline = new BMap.Polyline([  
+        new BMap.Point(106.612539,29.529602),  
+        new BMap.Point(106.607975,29.53177),  
+        new BMap.Point(106.610311,29.525862),  
+               new BMap.Point(106.60776,29.524008)  
+    ], {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5});   //创建折线  
+    map.addOverlay(polyline);   //增加折线  
+      
+    var polygon = new BMap.Polygon([  
+        new BMap.Point(106.607477,29.544864),  
+        new BMap.Point(106.613572,29.548324),  
+        new BMap.Point(106.619357,29.537421),  
+        new BMap.Point(106.612988,29.537079),  
+        new BMap.Point(106.615359,29.541143)  
+    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形  
+    map.addOverlay(polygon);   //增加多边形  
+  
+        var ppoint = new BMap.Point(106.613087,29.540485);  
+  
+         var result=BMapLib.GeoUtils.isPointInPolygon(ppoint, polygon);  
+      
+         alert("数字图书馆是否在多边形范围内："+result);  
+  
+         var ppoint1 = new BMap.Point(106.614986,29.539876);  
+          
+        var result1=BMapLib.GeoUtils.isPointInPolygon(ppoint1, polygon);  
+  
+        alert("乒乓球馆是否在多边形范围内："+result1+"米");  
+  
+         var distance =map.getDistance(ppoint, ppoint1);  
+        
+         alert("The Distance is"+distance);   
+          
+</script>  
+</body>  
+</html>  

@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.show {
+  animation: show 1s forwards;
+}
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
