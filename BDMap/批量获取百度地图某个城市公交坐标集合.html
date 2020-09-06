@@ -114,7 +114,7 @@
 					}
 					console.log(result['company'])
 					if (result['company'].indexOf(cityName) !== -1) {
-						console.log(result)
+						console.log('result', result['hB'])
 						searchResult.push(formatterPosition(result['hB']));
 					}
 					if (idx >= searchList.length) {
@@ -133,7 +133,7 @@
 		function formatterPosition(list) {
 			const coords = [];
 			for (let i in list) {
-				coords.push([list[i]['lng'], list[i]['lat']]);
+				coords.push([list[i]['position']['lng'], list[i]['position']['lat']]);
 			}
 			return {
 				coords: coords,
