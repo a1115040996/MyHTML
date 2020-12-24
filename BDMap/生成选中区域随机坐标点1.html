@@ -13,7 +13,7 @@
 		#divInfo{
 			color: red;
 		}
-		#closeLine{
+		.createPoint{
 			height: 50px;
 			margin: 10px auto auto;
 			background: deepskyblue;
@@ -44,7 +44,8 @@
 <body>
     <div id="allmap" style="width:100%;height:600px"></div>
     <div id="divInfo">说明： 点击地图绘制线条 （至少需要点击地图三次 才会生成闭合元素）</div>
-    <div id="closeLine">生成闭合元素</div>
+    <div class="createPoint" id="createCityRandomPoint">直接生成当前地图随机点</div>
+    <div class="createPoint" id="closeLine">生成闭合元素</div>
     <div id="example">
     	<div class="text">示例</div>
     </div>
@@ -56,13 +57,14 @@
 </html>
 <script type="text/javascript">
 	
-	const total = 100; // 生成的随机点的大小
+	const total = 200; // 生成的随机点的大小
 	const totalPointList = []; // 坐标点集合
-	const centerPoint = [121.466975,31.206904]; // 中央坐标区域
+	const centerPoint = [104.067923463, 30.6799428454]; // 中央坐标区域
 	const offetStepX = 8;
 	const offetStepY = 8;
-	const cityName = '上海市';
+	const cityName = '成都市';
 	const linesPoint  = [];
+	let cityOutlines;
     window.onload = function () {
 		var pointss="";
         var map = new BMap.Map("allmap");
@@ -89,6 +91,10 @@
 	        setTimeout(()=>{
 	         	getRandomPointList(polygon);
 	         }, 200)
+		}
+		
+		document.getElementById('createCityRandomPoint').onclick = function (){
+			getRandomPointList(cityOutlines);
 		}
 		
 		
@@ -158,9 +164,9 @@
 			 	var pointArray = [];
 			 	var count = rs.boundaries.length;
 			 	for (var i = 0; i < count; i++) {
-			 		var ply = new BMap.Polygon(rs.boundaries[i]); 
-			 		map.addOverlay(ply);
-			 		pointArray = pointArray.concat(ply.getPath());
+			 		cityOutlines = new BMap.Polygon(rs.boundaries[i]); 
+			 		map.addOverlay(cityOutlines);
+			 		pointArray = pointArray.concat(cityOutlines.getPath());
 			 		map.setViewport(pointArray);
 			 	}
 			})

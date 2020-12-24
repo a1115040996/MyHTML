@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=1nCQCnDr3Nt3GKDVeBmKGe2Y"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
-	<style type="text/css">
-		html,body{
-			width: 100%;
-			height: 100%;
-		}
-	</style>
-</head>
-<body>
-    <div id="allmap" style="width:100%;height:600px"></div>
-    <div id="divInfo"></div>
-    <div id="closeLine">close line</div>
-</body>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=1nCQCnDr3Nt3GKDVeBmKGe2Y"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			
+			#allmap {
+				position: relative;
+			}
+			
+			#market {
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: rgba(0, 0, 0, 0.2);
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				z-index: 1000;
+			}
+			
+			.container {
+				width: 100%;
+				height: 600px;
+				position: relative;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="allmap" style="width:100%;height:600px">
+			</div>
+			<div id="market"></div>
+		</div>
+
+		<div id="divInfo"></div>
+		<div id="closeLine">close line</div>
+	</body>
+
 </html>
 <script type="text/javascript">
-	
 	const total = 100; // 生成的随机点的大小
 	const totalPointList = []; // 坐标点集合
-	const centerPoint = [106.613087,29.540485]; // 中央坐标区域
+	const centerPoint = [106.613087, 29.540485]; // 中央坐标区域
 	const offetStepX = 5;
 	const offetStepY = 5;
 	const cityName = '上海市';
-	const linesPoint  = [];
-    window.onload = function () {
-		var pointss="";
-        var map = new BMap.Map("allmap");
-        map.centerAndZoom(new BMap.Point(centerPoint[0], centerPoint[1]), 16);
-        map.enableScrollWheelZoom();
-        
+	const linesPoint = [];
+	window.onload = function() {
+		var pointss = "";
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point(centerPoint[0], centerPoint[1]), 16);
+		map.enableScrollWheelZoom();
+
+		map.addEventListener("dragend", function() {
+			var center = map.getCenter();
+			console.log("地图中心点变更为：", center);
+			addMarker(map, center);
+		});
 		
 		
-    var polygon = new BMap.Polygon([  
-        new BMap.Point(106.607477,29.544864),  
-        new BMap.Point(106.613572,29.548324),  
-        new BMap.Point(106.619357,29.537421),  
-        new BMap.Point(106.612988,29.537079),  
-        new BMap.Point(106.615359,29.541143)  
-    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形  
-    map.addOverlay(polygon);   //增加多边形  
-  
-        var ppoint = new BMap.Point(106.613087,29.540485);  
-  
-         var result=BMapLib.GeoUtils.isPointInPolygon(ppoint, polygon);  
-      		addMarker(map, ppoint);
-         console.log("数字图书馆是否在多边形范围内："+result);  
-  
-         var ppoint1 = new BMap.Point(106.614986,29.539876);  
-          
-        var result1=BMapLib.GeoUtils.isPointInPolygon(ppoint1, polygon);  
-  		addMarker(map, ppoint1);
-        console.log("乒乓球馆是否在多边形范围内："+result1+"米");  
-  
-         // var distance =map.getDistance(ppoint, ppoint1);  
 
-		
-    }
+		    
+		var  polygon  =  new  BMap.Polygon([          new  BMap.Point(106.607477, 29.544864),           new  BMap.Point(106.613572, 29.548324),           new  BMap.Point(106.619357, 29.537421),           new  BMap.Point(106.612988, 29.537079),           new  BMap.Point(106.615359, 29.541143)      ],   {
+			strokeColor: "blue",
+			 strokeWeight: 2,
+			 strokeOpacity: 0.5
+		});   //创建多边形  
+		    
+		map.addOverlay(polygon);    //增加多边形  
+		          
+		var  ppoint  =  new  BMap.Point(106.613087, 29.540485);             
+		var  result = BMapLib.GeoUtils.isPointInPolygon(ppoint,  polygon);        
+		addMarker(map, ppoint);         
+		console.log("数字图书馆是否在多边形范围内：" + result);             
+		var  ppoint1  =  new  BMap.Point(106.614986, 29.539876);                    
+		var  result1 = BMapLib.GeoUtils.isPointInPolygon(ppoint1,  polygon);    
+		addMarker(map, ppoint1);        
+		console.log("乒乓球馆是否在多边形范围内：" + result1 + "米");              // var distance =map.getDistance(ppoint, ppoint1);  
 
+	}
 
-    
-    function addMarker(map, point){
-        var myIcon = new BMap.Icon("img/red_icon.png", new BMap.Size(20, 26), {
-        });
+	function addMarker(map, point) {
+		var myIcon = new BMap.Icon("img/red_icon.png", new BMap.Size(20, 20), {});
 
+		var marker = new BMap.Marker(point, {
+			icon: myIcon
+		});
 
-        var marker = new BMap.Marker(point, { icon: myIcon });
+		map.addOverlay(marker);
 
-        map.addOverlay(marker);
-
-        marker.enableDragging();
-    }
-    
+		marker.enableDragging();
+		return marker;
+	}
 </script>

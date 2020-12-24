@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			
+			.price-container {
+				padding-top: 200px;
+				list-style: none;
+				width: 150px;
+				height: 150px;
+				font-size: 0px;
+				margin: 0 auto;
+			}
+			
+			.price-container > li {
+				width: 50px;
+				height: 50px;
+				display: inline-block;
+				border: 1px solid #ccc;
+				box-sizing: border-box;
+				font-size: 14px;
+				color: #000000;
+			}
+			
+			.price-container > div {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background: #87CEEB;
+				vertical-align: top;
+				color: #000000;
+				font-size: 14px;
+			}
+			
+			.price-container > li.select {
+				background: orange;
+				border: 1px solid skyblue;
+			}
+			/*# sourceMappingURL=Demo.css.map */
+		</style>
+	</head>
+
+	<body>
+
+		<ul class="price-container">
+			<!--<li class="select" index="0">0</li>
+			<li index="1">1</li>
+			<li index="2">2</li>
+			<li index="7">7</li>
+			<div id="start">Start</div>
+			<li index="3">3</li>
+			<li index="6">6</li>
+			<li index="5">5</li>
+			<li index="4">4</li>-->
+		</ul>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			let moveIdx = 0; // 当前移动的下标
+			let timeIdx = 0;
+			let moveTime = 40; // 当前移动速度 100ms / 1 
+			let loopCount = 0; // 当前循环的次数
+			let timer; // 定时器标记
+
+			const winIndex = 6; // 获奖下标
+			const winLoopCount = 5; // 获奖循环次数
+
+			document.querySelector('.price-container').appendChild(createPrizeContainer());
+
+			function createPrizeContainer() {
+				const prizeIdxs = [0, 1, 2, 7, 'start', 3, 6, 5, 4];
+				const documentFragment = new DocumentFragment();
+				prizeIdxs.forEach((item) => {
+					const prizeLi = document.createElement("li");
+					prizeLi.index = item;
+					prizeLi.id = item;
+					prizeLi.setAttribute('index', item);
+					prizeLi.innerHTML = item;
+					documentFragment.appendChild(prizeLi);
+				});
+				return documentFragment;
+			}
+
+			const y = (x) => {
+				return 0.220 * Math.pow(x, 2) + 30;
+			}
+
+			function getYLinePoint(loopCount, winIndex) {
+				const lines = [];
+				const prizeNum = 8; // 奖品数量
+				const half = loopCount / 2 * 8;
+				const startIdx = -1 * half;
+				const endIdx = half + winIndex;
+				console.log('start================>', startIdx, endIdx);
+				for (let x = startIdx; x < endIdx; x++) {
+					console.log(y(x), x);
+					lines.push(y(x))
+				}
+				return lines;
+			}
+
+			const loopTimes = getYLinePoint(winLoopCount, 6);
+
+			function moveToSelect() {
+				timer = setTimeout(() => {
+					moveIdx++;
+					timeIdx++;
+					moveTime = loopTimes[timeIdx];
+					console.log(moveTime);
+					moveToSelect();
+					if (moveIdx >= 8) {
+						moveIdx = 0;
+						moveTime += 60;
+						loopCount++;
+					}
+					$(`li[index=${moveIdx}]`).addClass('select').siblings().removeClass('select');
+					if (loopCount === winLoopCount && winIndex === moveIdx) {
+						clearInterval(timer);
+						timeIdx = 0;
+					}
+				}, moveTime)
+			}
+
+			document.getElementById("start").onclick = function() {
+				moveToSelect();
+			};
+		</script>
+
+</html>
