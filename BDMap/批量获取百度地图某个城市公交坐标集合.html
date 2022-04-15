@@ -82,32 +82,37 @@
 	// const searchList = ["1路", "10路", "11路", "12路", "13路", "14路", "17路", "18路", "19路", "101路", "102路", "103路", "103路短线", "104路", "107路", "108路", "111路", "113路", "122路", "123路", "2路", "21路", "22路", "23路", "26路", "27路", "28路", "29路", "201路", "202路", "203路", "204路", "205路", "207路", "209路", "211路", "213路", "214路", "215路", "216路", "3路", "32路", "34路", "36路", "37路", "38路", "302路", "302路区间", "303路", "306路", "307路", "308路", "309路", "312路", "313路", "316路", "317路", "317路区间", "317区间高峰线路", "320路", "60路", "61路", "62路", "63路", "64路", "65路", "66路", "67路", "68路", "69路", "603路", "605路", "606路", "610路", "612路", "613路", "615路", "620路", "621路", "624路", "7路", "70路", "71路", "72路", "73路", "74路", "75路", "79路", "704路", "707路", "718路", "720路", "723路", "727路", "759路", "767路", "769路", "779路", "780路", "781路"]
 	const searchListLen = searchList.length;
 	let idx = 0;
+	const getListKey = (result)=> {
+		if({}.toString.call(result) !=='[object Object]') return;
+		const keys = Object.keys(result) || []
+		return keys.find(key=>({}.toString.call(result[key]) === '[object Array]'));
+	}
 
 	function getBusList(cityName) {
-
+		// 查询结果集
 		const searchResult = [];
-		var busLineSearch = new BMap.BusLineSearch(cityName, {
+		// BusLineSearch方法 options参数
+		const BusLineSearchOptions = {
 			renderOptions: {
 				map: map,
 				panel: "results"
-			}, // 将查询到的地图线路信息 绘制到视图上
+			}, 
+			// 公交列表数据查询成功后会触发以下回调函数，并携带参数：result: BusListResult类型
 			onGetBusListComplete: function (result) {
 				idx++;
-				console.log(idx);
-
-				console.log(result);
-				console.log('result ====>', result);
-				if (result && result['cB'] && result['cB'].length !== 0) {
+				const busLineKey = getListKey(result);
+				if (result && result[busLineKey] && result[busLineKey].length !== 0) {
 					var fstLine = result.getBusListItem(0); //获取第一个公交列表显示到map上
 					busLineSearch.getBusLine(fstLine)
 				}
 
 				// 如果没有查询出 线路数据 则跳过 查询下一条
-				if (result && result['cB'] && result['cB'].length === 0 && idx < searchList.length) {
+				if (result && result[busLineKey] && result[busLineKey].length === 0 && idx < searchList.length) {
 					startSearch(searchList[idx])
 				}
 
 			},
+			// 设置公交线路查询后的回调函数.参数：result: BusLine类型
 			onGetBusLineComplete: function (result) {
 				if (idx < searchList.length) {
 					setTimeout(() => {
@@ -116,22 +121,30 @@
 				}
 				console.log(result['company'])
 				if (result['company'].indexOf(cityName) !== -1) {
-					console.log('END', result['UB'])
-					searchResult.push(formatterPosition(result['UB']));
+					const busLineKey = getListKey(result);
+					console.log('END', result)
+					searchResult.push(formatterPosition(result[busLineKey]));
 				}
 				if (idx >= searchList.length) {
 					console.log('done')
 					console.log(JSON.stringify(searchResult));
 				}
 			}
-		});
-		startSearch(searchList[idx]);
+		}
+		/**
+		 * @description 公交路线搜索类
+		 * @param cityName 城市名称 例如上海市，当参数为城市名称时，检索会只在该城市内进行
+		 * @param BusLineSearchOptions 可配置查询成功回调函数等，具体可见https://mapopen-pub-jsapi.bj.bcebos.com/jsapi/reference/jsapi_webgl_1_0.html#a8b44
+		 */
+		var busLineSearch = new BMap.BusLineSearch(cityName, BusLineSearchOptions);
 
+		// 查询入口函数
+		startSearch(searchList[idx]);
 		function startSearch(name) {
 			busLineSearch.getBusList(name);
 		}
 	}
-
+	// 格式化查询到的经纬度信息 便于Echarts使用
 	function formatterPosition(list) {
 		const coords = [];
 		for (let i in list) {
